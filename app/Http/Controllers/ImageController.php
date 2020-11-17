@@ -11,20 +11,15 @@ use Illuminate\Support\Facades\Response;
 class ImageController extends Controller
 {
 
-    public function store(Request $request){
-
-        $this->validate($request, [
-            'file' => 'required|image|mimes:jpeg,png,jpg|max:100',
-        ]);
-    
+    public function store(Request $request){   
     
         if ($request->hasFile('file')) {
             if($request->rel_type == 'article'){
                 $item = Article::findOrFail($request->id);                
-                $destinationPath = public_path('/uploads/images/articles');
-            }elseif ($request->rel_type == 'user') {
+                $destinationPath = public_path('/img/posts');
+            }elseif ($request->rel_type == 'profile') {
                 $item = User::findOrFail($request->id);
-                $destinationPath = public_path('/uploads/images/users');
+                $destinationPath = public_path('/img/users');
             }else{
                 $message = 'unknown rel_type';
                 return response()->json(compact('message'), 400);    
@@ -38,7 +33,7 @@ class ImageController extends Controller
             $item->save();
         }         
     
-        return response()->json(compact('message'), 200);    
+        return response()->json(compact('name'), 200);    
     }
 
     public function delete(Request $request){  
@@ -46,11 +41,11 @@ class ImageController extends Controller
             if($request->rel_type == 'article'){
                 $item = Article::findOrFail($request->id);  
                 $image_name = $item->image_name;              
-                $filePath = public_path('/uploads/images/articles/'.$image_name);
+                $filePath = public_path('/img/posts/'.$image_name);
             }elseif ($request->rel_type == 'user') {
                 $item = User::findOrFail($request->id);
                 $image_name = $item->image_name;
-                $filePath = public_path('/uploads/images/users/'.$image_name);
+                $filePath = public_path('/img/users/'.$image_name);
             }else{
                 $message = 'invalid rel type';
                 return response()->json(compact('message'), 400);    

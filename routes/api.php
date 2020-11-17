@@ -21,7 +21,10 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
     $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
         $api->post('login', 'AuthController@login');
-        $api->post('register', 'AuthController@register');          
+        $api->post('register', 'AuthController@register');   
+        $api->post('updateuserdata', 'AuthController@updateUserData');
+        $api->post('updatepassword', 'AuthController@updateUserPassword');  
+        $api->post('changerole', 'AuthController@changeRole');       
     });
 
     $api->group(['prefix' => 'images', 'namespace' => 'App\Http\Controllers'], function ($api) {      
@@ -33,6 +36,7 @@ $api->version('v1', function ($api) {
 });
 
 $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Controllers'], function ($api) {
+
 
     $api->group(['prefix' => 'products'], function ($api) {      
         $api->get('', ['as' => 'api.products', 'uses' => 'ProductController@index']);

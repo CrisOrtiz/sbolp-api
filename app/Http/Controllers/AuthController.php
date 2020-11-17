@@ -20,6 +20,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $status = 'error';
         $credentials = ['email' => $request->email, 'password' => $request->password];
 
         $user = User::where('email', $request->email)->first();
@@ -33,8 +34,9 @@ class AuthController extends Controller
         }
 
         auth()->login($user);
+        $status = 'success';
 
-        return response()->json([Auth::id(), 'login succesful', compact('token')]);
+        return response()->json(compact([Auth::id(),'token', 'status']));
     }
 
     public function register(Request $request)
@@ -48,9 +50,11 @@ class AuthController extends Controller
         } else {
             $user = new User();
             $user->name = $request->name;
+            $user->lastname = $request->lastname;
             $user->email = $request->email;
             $user->role = $request->role;
             $user->password = Hash::make($request->password);
+            $user->image_name = 'default-user.jpg';
             $user->save();
 
             if ($user->save()) {
@@ -60,7 +64,7 @@ class AuthController extends Controller
                 $token = auth()->attempt($credentials);
                 auth()->login($user);
 
-                return response()->json([Auth::id(), 'register succesful', compact('token')]);
+                return response()->json(compact([Auth::id(),'token', 'status']));
             } else {
                 $message = 'register error';
                 return response()->json(compact('status', 'message'), 401);
@@ -76,58 +80,92 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
 
-    public function updateUser(Request $request)
+    public function updateUserData(Request $request)
     {
-        $status = 'update user failed';
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
+        $status = 'error';
+        $message = '';
 
         $user = User::where('id', $request->id)->first();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
+        if($user->email != $request->email){
+            if (count(User::where('email', $request->email)->get()) > 0) {
+                $message = 'taken';
+                return response()->json(compact('status', 'message'), 400);
+            } else {
+                $user->name = $request->name;
+                $user->lastname = $request->lastname;
+                $user->email = $request->email;               
+                $user->save();
+
+                if ($user->save()) {
+                    $status = 'success';                
+
+                    return response()->json(compact([Auth::id(), 'status']));
+                } else {
+                    $message = 'user update data failed';
+                    return response()->json(compact('status', 'message'), 401);
+                }
+            }
+        }else{
+            $user->name = $request->name;
+            $user->lastname = $request->lastname;            
+            $user->save();
+
+            if ($user->save()) {
+                $status = 'success';
+                $credentials = ['email' => $request->email, 'password' => $request->password];
+
+                $token = auth()->attempt($credentials);
+                auth()->login($user);
+
+                return response()->json(compact([Auth::id(), 'status']));
+            } else {
+                $message = 'user update data failed';
+                return response()->json(compact('status', 'message'), 401);
+            }
+        }
+    }
+
+    public function updateUserPassword(Request $request)
+    {
+        $status = 'failed';
+
+        $user = User::where('id', $request->id)->first();
+            $user->password = Hash::make($request->password);    
+            $user->save();
+         
 
         if ($user->save()) {
-            $status = 'update user success';
+            $status = 'success';
+            $credentials = ['email' => $user->email, 'password' => $request->password];
+
+            $token = auth()->attempt($credentials);
+            auth()->login($user);
+
+            return response()->json(compact([Auth::id(), 'token', 'status']));
+        } else {
+            $message = 'user update password failed';
+            return response()->json(compact('status', 'message'), 401);
         }
 
-        $token = JWTAuth::fromUser($user);
-
-        return response()->json(compact('status', 'user', 'token'), 201);
+       
     }
 
     public function changeRole(Request $request)
     {
-        $status = 'update user failed';
-
-        $validator = Validator::make($request->all(), [
-            'role' => 'required|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
+        $status = 'update user role failed';
 
         $user = User::where('id', $request->id)->first();
         $user->role = $request->role;
         $user->save();
 
         if ($user->save()) {
-            $status = 'update user role success';
+            $status = 'success';
+    
+            return response()->json(compact([Auth::id(), 'status']));
+        } else {
+            $message = 'user update role failed';
+            return response()->json(compact('status', 'message'), 401);
         }
-
-        $token = JWTAuth::fromUser($user);
-
-        return response()->json(compact('status', 'user', 'token'), 201);
     }
 
     public function getAuthenticatedUser()
