@@ -12,20 +12,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($pageSize, $currentPage, $search, $orderBy)
+    public function index(Request $request)
     {
-        $users = User::where('name','LIKE','%'.$search.'%')
-            ->orWhere('lastname','LIKE','%'.$search.'%')
-            ->orWhere('email','LIKE','%'.$search.'%')
-            ->orderBy($orderBy)
-            ->paginate((int)$pageSize)
-            ->skip((int)$currentPage * (int)$pageSize)
-            ->get();
 
-        $totalItem = $users->count();
-        $totalPage = $currentPage;
+        $users = User::where('name','LIKE','%'.$request->search.'%')
+            ->orWhere('lastname','LIKE','%'.$request->search.'%')
+            ->orWhere('email','LIKE','%'.$request->search.'%')
+            ->orderBy($request->orderBy)            
+            ->paginate((int)$request->pageSize);
        
-        return response()->json(compact(['users','totalItem', 'totalPage']));
+        return response()->json(compact(['users']));
     }
 
 }

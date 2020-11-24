@@ -170,22 +170,25 @@ class AuthController extends Controller
 
     public function getAuthenticatedUser()
     {
+        $status = 'failed';
+        $message = '';
         try {
             if (!$user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
+                $message = 'user_not_found';
+                return response()->json(compact('message','status'), 404);
             }
         } catch (TokenExpiredException $e) {
-
-            return response()->json(['token_expired'], 400);
+            $message = 'token_expired';
+            return response()->json(compact('message','status'), 400);
         } catch (TokenInvalidException $e) {
-
-            return response()->json(['token_invalid'], 401);
+            $message = 'token_invalid';
+            return response()->json(compact('message','status'), 401);
         } catch (JWTException $e) {
-
-            return response()->json(['token_absent'], 400);
+            $message = 'token_absent';
+            return response()->json(compact('message','status'), 400);
         }
-
-        return response()->json(compact('user'));
+        $status = 'success';
+        return response()->json(compact('user','status'));
     }
 
     public function refreshToken()
