@@ -21,6 +21,7 @@ class UserTableSeeder extends Seeder
             $user->email = 'admin'  . $j . '@admin.com';
             $user->password = Hash::make('password');      
             $user->role = 'ROLE_ADMIN';
+            $user->status = true;
             $user->image_name = 'img-profile-1.jpg';
             $user->save();
 
@@ -38,6 +39,7 @@ class UserTableSeeder extends Seeder
             $user->email = 'user' . $i . '@user.com';
             $user->password = Hash::make('password');      
             $user->role = 'ROLE_USER';
+            $user->status = false;
             $user->image_name = 'default-user.jpg';
             $user->save();
 

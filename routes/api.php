@@ -18,13 +18,11 @@ use Illuminate\Support\Facades\Route;
 $api = app('Dingo\Api\Routing\Router');
 
 
-$api->version('v1', function ($api) {
-    $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
+$api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5],function ($api) {
+    $api->group(['namespace' => 'App\Http\Controllers',], function ($api) {
         $api->post('login', 'AuthController@login');
         $api->post('register', 'AuthController@register');   
-        $api->post('updateuserdata', 'AuthController@updateUserData');
-        $api->post('updatepassword', 'AuthController@updateUserPassword');  
-        $api->post('changerole', 'AuthController@changeRole');       
+         
     });
 
     $api->group(['prefix' => 'images', 'namespace' => 'App\Http\Controllers'], function ($api) {      
@@ -36,7 +34,6 @@ $api->version('v1', function ($api) {
 });
 
 $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Controllers'], function ($api) {
-
 
     $api->group(['prefix' => 'products'], function ($api) {      
         $api->get('', ['as' => 'api.products', 'uses' => 'ProductController@index']);
@@ -67,8 +64,10 @@ $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Control
         $api->get('me', ['as' => 'api.user.me', 'uses' => 'AuthController@getAuthenticatedUser']);
         $api->post('logout', ['as' => 'api.user.logout', 'uses' => 'AuthController@logout']);
         $api->post('refreshtoken', ['as' => 'api.user.refresh', 'uses' => 'AuthController@refreshToken']);
-        $api->post('userupdate', ['as' => 'api.user.update', 'uses' => 'AuthController@updateUser']);
-        $api->post('changerole', ['as' => 'api.user.changerole', 'uses' => 'AuthController@changeRole']);
+        $api->post('updateuserdata', ['as' => 'api.user.udpate.data', 'uses' =>'UserController@updateUserData']);
+        $api->post('updatepassword', ['as' => 'api.user.update.password', 'uses' =>'UserController@updateUserPassword']);  
+        $api->post('changerole', ['as' => 'api.user.changerole', 'uses' =>'UserController@changeRole']);     
+        $api->post('status', ['as' => 'api.user.status', 'uses' => 'UserController@changeStatus']);
     });
     
     
