@@ -35,12 +35,12 @@ $api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' =
 
 $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Controllers'], function ($api) {
 
-    $api->group(['prefix' => 'products'], function ($api) {      
-        $api->get('', ['as' => 'api.products', 'uses' => 'ProductController@index']);
-        $api->get('show/{id}', ['as' => 'api.products.show', 'uses' => 'ProductController@show']);     
-        $api->post('update/{id}', ['as' => 'api.products.update', 'uses' => 'ProductController@update']);   
-        $api->post('create', ['as' => 'api.products.create', 'uses' => 'ProductController@store']);               
-        $api->delete('{id}', ['as' => 'api.products.delete', 'uses' => 'ProductController@destroy']);
+    $api->group(['prefix' => 'patients'], function ($api) {      
+        $api->get('', ['as' => 'api.patients', 'uses' => 'PatientController@index']);
+        $api->get('show/{id}', ['as' => 'api.patients.show', 'uses' => 'PatientController@show']);     
+        $api->post('update/{id}', ['as' => 'api.patients.update', 'uses' => 'PatientController@update']);   
+        $api->post('create', ['as' => 'api.patients.create', 'uses' => 'PatientController@store']);               
+        $api->delete('{id}', ['as' => 'api.patients.delete', 'uses' => 'PatientController@destroy']);
     });
 
     $api->group(['prefix' => 'clients'], function ($api) {      
@@ -68,6 +68,7 @@ $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Control
         $api->post('updatepassword', ['as' => 'api.user.update.password', 'uses' =>'UserController@updateUserPassword']);  
         $api->post('changerole', ['as' => 'api.user.changerole', 'uses' =>'UserController@changeRole']);     
         $api->post('status', ['as' => 'api.user.status', 'uses' => 'UserController@changeStatus']);
+        $api->post('delete', ['as' => 'api.user.delete', 'uses' => 'UserController@deleteUser']);
     });
     
     

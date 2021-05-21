@@ -49,7 +49,5 @@ class UserTableSeeder extends Seeder
             $image->image_url = env('APP_URL').'/img/users/img-'.$image->rel_type.'-'.$image->rel_id.'jpg';
             $image->save();
         }
-      
-
     }
 }

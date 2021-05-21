@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class SaleProducts extends Migration
+class UserPatients extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class SaleProducts extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('sale_products', function (Blueprint $table) {
+        Schema::connection('mysql')->create('user_patients', function (Blueprint $table) {
             $table->id();
-            $table->string('sale_id');
-            $table->string('product_code');
-            $table->integer('qty')->nullable();
-            $table->double('price');
+            $table->string('user_id');
+            $table->string('patient_id');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class SaleProducts extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql')->dropIfExists('sale_products');
+        Schema::connection('mysql')->dropIfExists('user_patients');
     }
 }
