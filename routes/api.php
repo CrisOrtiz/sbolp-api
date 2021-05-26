@@ -35,12 +35,14 @@ $api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' =
 
 $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Controllers'], function ($api) {
 
-    $api->group(['prefix' => 'patients'], function ($api) {      
-        $api->get('', ['as' => 'api.patients', 'uses' => 'PatientController@index']);
-        $api->get('show/{id}', ['as' => 'api.patients.show', 'uses' => 'PatientController@show']);     
-        $api->post('update/{id}', ['as' => 'api.patients.update', 'uses' => 'PatientController@update']);   
-        $api->post('create', ['as' => 'api.patients.create', 'uses' => 'PatientController@store']);               
-        $api->delete('{id}', ['as' => 'api.patients.delete', 'uses' => 'PatientController@destroy']);
+    $api->group(['prefix' => 'case'], function ($api) {      
+        $api->get('all', ['as' => 'api.case.index', 'uses' => 'ClinicCaseController@index']);
+        $api->get('userall', ['as' => 'api.case-index.user', 'uses' => 'ClinicCaseController@indexUserCases']);
+        $api->get('caseuser', ['as' => 'api.case.user', 'uses' => 'ClinicCaseController@getCaseUser']);
+        $api->get('show/{id}', ['as' => 'api.case.show', 'uses' => 'ClinicCaseController@show']);     
+        $api->post('update', ['as' => 'api.case.update', 'uses' => 'ClinicCaseController@update']);   
+        $api->post('create', ['as' => 'api.case.create', 'uses' => 'ClinicCaseController@store']);               
+        $api->delete('{id}', ['as' => 'api.case.delete', 'uses' => 'ClinicCaseController@destroy']);
     });
 
     $api->group(['prefix' => 'clients'], function ($api) {      

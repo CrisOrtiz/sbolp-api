@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Patient extends Model
+class ClinicCase extends Model
 {
     protected $connection = 'mysql';
     
@@ -13,14 +13,14 @@ class Patient extends Model
      *
      * @var string
      */
-    protected $table = 'patients';
+    protected $table = 'clinic_cases';
 
-    /*public function history()
+    public function user()
     {
-        return $this->hasMany(History::class, 'patient_id', 'id');
+        return $this->belongsTo(User::class,  'user_id', 'id');
     }
 
-    public function odontogram()
+    /*public function odontogram()
     {
         return $this->hasMany(Odontogram::class, 'patient_id', 'id');
     }*/

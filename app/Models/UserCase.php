@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserPatient extends Model
+class UserCase extends Model
 {
     protected $connection = 'mysql';
 
@@ -13,6 +13,6 @@ class UserPatient extends Model
      *
      * @var string
      */
-    protected $table = 'user_patients';
+    protected $table = 'user_cases';
 
 }

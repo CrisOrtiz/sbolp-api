@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UserPatients extends Migration
+class UserCases extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class UserPatients extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('user_patients', function (Blueprint $table) {
+        Schema::connection('mysql')->create('user_cases', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
-            $table->string('patient_id');
+            $table->string('case_id');
             $table->string('status');
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class UserPatients extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql')->dropIfExists('user_patients');
+        Schema::connection('mysql')->dropIfExists('user_cases');
     }
 }

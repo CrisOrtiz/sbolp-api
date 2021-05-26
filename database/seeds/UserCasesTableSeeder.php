@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\UserPatient;
+use App\Models\UserCase;
 use Illuminate\Database\Seeder;
 
-class UserPatientsTableSeeder extends Seeder
+class UserCasesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,9 +12,9 @@ class UserPatientsTableSeeder extends Seeder
      */
     public function run()
     {
-        $userPatient = new UserPatient();
+        $userPatient = new UserCase();
         $userPatient->user_id = 1;
-        $userPatient->patient_id = 1;
+        $userPatient->case_id = 1;
         $userPatient->status = 'public';
         $userPatient->save();
     }
