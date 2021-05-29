@@ -28,7 +28,8 @@ class UserController extends Controller
         $users = User::where('name','LIKE','%'.$request->search.'%')
             ->orWhere('lastname','LIKE','%'.$request->search.'%')
             ->orWhere('email','LIKE','%'.$request->search.'%')
-            ->orderBy($request->orderBy, $request->direction)            
+            ->orderBy($request->orderBy, $request->direction)   
+            ->with('images')         
             ->paginate((int)$request->pageSize);
        
         return response()->json(compact(['users']),200);

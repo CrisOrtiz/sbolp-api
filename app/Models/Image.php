@@ -14,4 +14,9 @@ class Image extends Model
      * @var string
      */
     protected $table = 'images';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,  'rel_id', 'id');
+    }
 }

@@ -14,8 +14,8 @@ class ImageController extends Controller
     public function store(Request $request){   
     
         if ($request->hasFile('file')) {
-            if($request->rel_type == 'article'){
-                $item = Article::findOrFail($request->id);                
+            if($request->rel_type == 'case'){
+                $item = ClinicCase::findOrFail($request->id);                
                 $destinationPath = public_path('/img/posts');
             }elseif ($request->rel_type == 'profile') {
                 $item = User::findOrFail($request->id);

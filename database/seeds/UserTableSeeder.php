@@ -28,7 +28,7 @@ class UserTableSeeder extends Seeder
             $image = new Image();
             $image->rel_type = 'profile';
             $image->rel_id = $user->id;
-            $image->image_url = env('APP_URL').'/img/users/img-'.$image->rel_type.'-'.$image->rel_id.'jpg';
+            $image->image_url = '/img/users/img-'.$image->rel_type.'-'.$image->rel_id.'jpg';
             $image->save();
        }
 
@@ -46,7 +46,7 @@ class UserTableSeeder extends Seeder
             $image = new Image();
             $image->rel_type = 'profile';
             $image->rel_id = $user->id;
-            $image->image_url = env('APP_URL').'/img/users/img-'.$image->rel_type.'-'.$image->rel_id.'jpg';
+            $image->image_url = '/img/users/img-'.$image->rel_type.'-'.$image->rel_id.'jpg';
             $image->save();
         }
     }

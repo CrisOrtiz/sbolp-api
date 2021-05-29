@@ -17,7 +17,7 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->string('rel_type');
             $table->string('rel_id');
-            $table->string('image_url', 255)->default(env('APP_URL').'/img/users/default-user.jpg');
+            $table->string('image_url', 255)->default('/img/users/default-user.jpg');
             $table->timestamps();
         });
     }
