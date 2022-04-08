@@ -17,6 +17,7 @@ class ClinicCases extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('name');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

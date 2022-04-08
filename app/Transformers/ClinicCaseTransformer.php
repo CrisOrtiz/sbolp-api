@@ -28,6 +28,7 @@ class ClinicCaseTransformer extends TransformerAbstract
             'id' => $clinicCase->id,
             'user_id' => $clinicCase->id,
             'name' => $clinicCase->name,
+            'status' => $clinicCase->status,
         ];
     }
 

@@ -15,21 +15,25 @@ class ClinicCaseTableSeeder extends Seeder
         $clinicCase = new ClinicCase();
         $clinicCase->user_id = '1';
         $clinicCase->name = 'Mordida cruzada anterior Brackets';
+        $clinicCase->status = true;
         $clinicCase->save();
 
         $clinicCase = new ClinicCase();
         $clinicCase->user_id = '2';
         $clinicCase->name = 'Mordida cruzada posterior Pistas Composite';
+        $clinicCase->status = true;
         $clinicCase->save();
 
         $clinicCase = new ClinicCase();
         $clinicCase->user_id = '3';
         $clinicCase->name = 'Mordida cruzada anterior Quad Helix';
+        $clinicCase->status = true;
         $clinicCase->save();
 
         $clinicCase = new ClinicCase();
         $clinicCase->user_id = '4';
         $clinicCase->name = 'Mordida cruzada anterior Placa Progenie';
+        $clinicCase->status = true;
         $clinicCase->save();
 
         $clinicCase = new ClinicCase();

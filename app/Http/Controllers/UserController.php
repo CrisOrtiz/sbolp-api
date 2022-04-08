@@ -32,7 +32,7 @@ class UserController extends Controller
             ->with('images')         
             ->paginate((int)$request->pageSize);
        
-        return response()->json(compact(['users']),200);
+        return response()->json(compact(['users']), 200);
     }
 
     public function updateUserData(Request $request)

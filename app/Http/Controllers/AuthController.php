@@ -26,19 +26,19 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         
         if(!$user){
-            return response()->json(['error' => 'email no pertenece a ningun usuario'], 401);
+            return response()->json(['error' => 'Email no encontrado'], 401);
         }
         
         if($user->status == false){
-            return response()->json(['error' => 'usuario inactivo'], 401);
+            return response()->json(['error' => 'Usuario inactivo, contactese con un administrador.'], 401);
         }
 
         try {
             if (!$token = auth()->attempt($credentials)) {
-                return response()->json(['error' => 'contraseña erronea', 'request-email' => $request->email, 'request-password' => $request->password, 'token' => $token], 400);
+                return response()->json(['error' => 'Contraseña erronea', 'request-email' => $request->email, 'request-password' => $request->password, 'token' => $token], 400);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'error al generar token en servidor'], 500);
+            return response()->json(['error' => 'Error en el servidor'], 500);
         }
 
         auth()->login($user);

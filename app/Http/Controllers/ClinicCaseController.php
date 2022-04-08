@@ -21,6 +21,7 @@ class ClinicCaseController extends Controller
     public function index(Request $request)
     {
         $clinic_cases = ClinicCase::where('name','LIKE','%'.$request->search.'%')
+        ->where('status', true)
         ->with('user')
         ->orderBy($request->orderBy, $request->direction)            
         ->paginate((int)$request->pageSize);

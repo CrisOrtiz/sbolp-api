@@ -33,7 +33,7 @@ class ImageController extends Controller
             $item->save();
         }         
     
-        return response()->json(compact('name'), 200);    
+        return response()->json(compact('name', 'image'), 200);    
     }
 
     public function delete(Request $request){  
