@@ -26,8 +26,17 @@ class ClinicCaseTransformer extends TransformerAbstract
     {
         return [
             'id' => $clinicCase->id,
-            'user_id' => $clinicCase->id,
-            'name' => $clinicCase->name,
+            'user_id' => $clinicCase->user_id,
+            'title' => $clinicCase->title,
+            'description' => $clinicCase->description,
+            'diagnostic' => $clinicCase->diagnostic,
+            'treatment_phase_one' => $clinicCase->treatment_phase_one,
+            'procedure_phase_one' => $clinicCase->procedure_phase_one,
+            'hasSecondPhase' => $clinicCase->hasSecondPhase,
+            'treatment_phase_two' => $clinicCase->treatment_phase_two,
+            'procedure_phase_two' => $clinicCase->procedure_phase_two,
+            'conclusions' => $clinicCase->conclusions,
+            'advices' => $clinicCase->advices,
             'status' => $clinicCase->status,
         ];
     }

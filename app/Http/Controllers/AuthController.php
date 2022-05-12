@@ -35,7 +35,7 @@ class AuthController extends Controller
 
         try {
             if (!$token = auth()->attempt($credentials)) {
-                return response()->json(['error' => 'Contraseña erronea', 'request-email' => $request->email, 'request-password' => $request->password, 'token' => $token], 400);
+                return response()->json(['error' => 'Revise sus credenciales', 'request-email' => $request->email, 'request-password' => $request->password, 'token' => $token], 400);
             }
         } catch (JWTException $e) {
             return response()->json(['error' => 'Error en el servidor'], 500);

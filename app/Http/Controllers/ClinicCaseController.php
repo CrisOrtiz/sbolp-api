@@ -20,7 +20,8 @@ class ClinicCaseController extends Controller
      */
     public function index(Request $request)
     {
-        $clinic_cases = ClinicCase::where('name','LIKE','%'.$request->search.'%')
+        $clinic_cases = ClinicCase::where('title','LIKE','%'.$request->search.'%')
+        ->where('description','LIKE','%'.$request->search.'%')
         ->where('status', true)
         ->with('user')
         ->orderBy($request->orderBy, $request->direction)            
@@ -36,7 +37,8 @@ class ClinicCaseController extends Controller
      */
     public function indexUserCases(Request $request)
     {
-        $clinic_cases = ClinicCase::where('name','LIKE','%'.$request->search.'%')
+        $clinic_cases = ClinicCase::where('title','LIKE','%'.$request->search.'%')
+        ->where('description','LIKE','%'.$request->search.'%')
         ->where('user_id', $request->user_id)
         ->orderBy($request->orderBy, $request->direction)            
         ->paginate((int)$request->pageSize);
@@ -55,7 +57,7 @@ class ClinicCaseController extends Controller
         $clinic_case = ClinicCase::find($id);
 
         if (!$clinic_case) {
-            return response()->json(['Caso clinico inexistente'], 400);
+            return response()->json(['Caso inexistente'], 400);
         }
 
         return $this->item($clinic_case, new ClinicCaseTransformer);
@@ -70,7 +72,18 @@ class ClinicCaseController extends Controller
     public function store(Request $request)
     {
         $clinic_case = new ClinicCase();
-        $clinic_case->name = $request->name;
+        $clinic_case->user_id = $request->user_id;
+        $clinic_case->title = $request->title;
+        $clinic_case->description = $request->description;
+        $clinic_case->diagnostic = $request->diagnostic;
+        $clinic_case->treatment_phase_one = $request->treatment_phase_one;
+        $clinic_case->procedure_phase_one = $request->procedure_phase_one;
+        $clinic_case->hasSecondPhase = $request->hasSecondPhase;
+        $clinic_case->treatment_phase_two = $request->treatment_phase_two;
+        $clinic_case->procedure_phase_two = $request->procedure_phase_two;
+        $clinic_case->conclusions = $request->conclusions;
+        $clinic_case->advices = $request->advices;
+        $clinic_case->status = $request->status;
         $clinic_case->save();
 
         return $this->item($clinic_case, new ClinicCaseTransformer);
@@ -87,7 +100,15 @@ class ClinicCaseController extends Controller
     public function update(Request $request, $id)
     {
         $clinic_case = ClinicCase::findOrFail($id);
-        $clinic_case->name = $request->name;
+        $clinic_case->title = $request->title;
+        $clinic_case->description = $request->description;
+        $clinic_case->diagnostic = $request->diagnostic;
+        $clinic_case->treatment_phase_one = $request->treatment_phase_one;
+        $clinic_case->procedure_phase_one = $request->procedure_phase_one;
+        $clinic_case->treatment_phase_two = $request->treatment_phase_two;
+        $clinic_case->procedure_phase_two = $request->procedure_phase_two;
+        $clinic_case->conclusions = $request->conclusions;
+        $clinic_case->advices = $request->advices;
         $clinic_case->save();
 
         return $this->item($clinic_case, new ClinicCaseTransformer);
@@ -106,5 +127,26 @@ class ClinicCaseController extends Controller
         $text = "caso clinico eliminado";
 
         return response()->json(compact('text'), 200);
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $status = 'update clinic case status failed';
+
+        $clinic_case = ClinicCase::where('id', $request->id)->first();
+        if($request->status == false){
+            $clinic_case->status = true;
+        }elseif($request->status == true){
+            $clinic_case->status = false;
+        }       
+        $clinic_case->save();
+
+        if ($clinic_case->save()) {
+            $status = 'Success';    
+            return response()->json(compact(['clinic_case', 'status']), 200);
+        } else {
+            $message = 'Clinic case update status failed';
+            return response()->json(compact('status', 'message'), 401);
+        }
     }
 }

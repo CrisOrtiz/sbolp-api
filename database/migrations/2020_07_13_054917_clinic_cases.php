@@ -16,7 +16,16 @@ class ClinicCases extends Migration
         Schema::connection('mysql')->create('clinic_cases', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
-            $table->string('name');
+            $table->string('title');
+            $table->string('description');
+            $table->string('diagnostic');
+            $table->string('treatment_phase_one');
+            $table->string('procedure_phase_one');
+            $table->boolean('hasSecondPhase')->default(false);
+            $table->string('treatment_phase_two')->nullable();
+            $table->string('procedure_phase_two')->nullable();
+            $table->string('conclusions');
+            $table->string('advices');
             $table->boolean('status')->default(false);
             $table->timestamps();
         });
