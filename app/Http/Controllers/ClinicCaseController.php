@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Transformers\ClinicCaseTransformer;
 use App\Http\Controllers\Controller;
-use App\Models\Item;
 use App\Models\ClinicCase;
+use App\Models\Item;
 use Artisan;
 
 
@@ -24,6 +24,7 @@ class ClinicCaseController extends Controller
         ->where('description','LIKE','%'.$request->search.'%')
         ->where('status', true)
         ->with('user')
+        ->with('comments')
         ->orderBy($request->orderBy, $request->direction)            
         ->paginate((int)$request->pageSize);
 
@@ -54,7 +55,7 @@ class ClinicCaseController extends Controller
      */
     public function show($id)
     {
-        $clinic_case = ClinicCase::find($id);
+        $clinic_case = ClinicCase::where('id', $id)->with('user')->with('comments')->get();
 
         if (!$clinic_case) {
             return response()->json(['Caso inexistente'], 400);

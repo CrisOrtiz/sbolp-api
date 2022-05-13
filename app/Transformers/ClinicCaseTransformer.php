@@ -2,7 +2,8 @@
 namespace App\Transformers;
 use App\Models\ClinicCase;
 use League\Fractal\TransformerAbstract;
-
+use App\Transformers\CommentTransformer;
+use App\Transformers\UserTransformer;
 class ClinicCaseTransformer extends TransformerAbstract
 {
     /**
@@ -11,13 +12,14 @@ class ClinicCaseTransformer extends TransformerAbstract
      * @var array
      */
     protected $defaultIncludes = [
+        'comments'
     ];
     /**
      * List of resources possible to include
      *
      * @var array
      */
-    protected $availableIncludes = [];
+    protected $availableIncludes = ['comments'];
     /**
      * @param ClinicCase $clinicCase
      * @return array
@@ -45,5 +47,11 @@ class ClinicCaseTransformer extends TransformerAbstract
     {
         $user = $clinicCase->user()->get();
         return $this->item($user, new UserTransformer());
+    }
+
+    public function includeComments(ClinicCase $clinicCase)
+    {
+        $comments = $clinicCase->comments()->get();
+        return $this->item($comments, new CommentTransformer());
     }
 }

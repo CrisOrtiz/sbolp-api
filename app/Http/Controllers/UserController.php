@@ -25,14 +25,32 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        $users = User::where('name','LIKE','%'.$request->search.'%')
-            ->orWhere('lastname','LIKE','%'.$request->search.'%')
-            ->orWhere('email','LIKE','%'.$request->search.'%')
-            ->orderBy($request->orderBy, $request->direction)   
-            ->with('images')         
+        $users = User::where('name', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('lastname', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('email', 'LIKE', '%' . $request->search . '%')
+            ->orderBy($request->orderBy, $request->direction)
+            ->with('images')
             ->paginate((int)$request->pageSize);
-       
+
         return response()->json(compact(['users']), 200);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //añadir aqui with(notifications) cuando sea trabajado
+        $user = User::findOrFail($id);
+
+        if (!$user) {
+            return response()->json(['Usuario inexistente'], 400);
+        }
+
+        return response()->json(compact(['user']), 200);
     }
 
     public function updateUserData(Request $request)
@@ -41,29 +59,29 @@ class UserController extends Controller
         $message = '';
 
         $user = User::where('id', $request->id)->first();
-        if($user->email != $request->email){
+        if ($user->email != $request->email) {
             if (count(User::where('email', $request->email)->get()) > 0) {
                 $message = 'taken';
                 return response()->json(compact('status', 'message'), 400);
             } else {
                 $user->name = $request->name;
                 $user->lastname = $request->lastname;
-                $user->email = $request->email; 
-                $user->status = $request->status;              
+                $user->email = $request->email;
+                $user->status = $request->status;
                 $user->save();
 
                 if ($user->save()) {
-                    $status = 'success';       
-                    return response()->json(compact([Auth::id(), 'status']),200);
+                    $status = 'success';
+                    return response()->json(compact([Auth::id(), 'status']), 200);
                 } else {
                     $message = 'user update data failed';
                     return response()->json(compact('status', 'message'), 401);
                 }
             }
-        }else{
+        } else {
             $user->name = $request->name;
-            $user->lastname = $request->lastname;      
-            $user->status = $request->status;          
+            $user->lastname = $request->lastname;
+            $user->status = $request->status;
             $user->save();
 
             if ($user->save()) {
@@ -73,7 +91,7 @@ class UserController extends Controller
                 $token = auth()->attempt($credentials);
                 auth()->login($user);
 
-                return response()->json(compact([Auth::id(), 'status']),200);
+                return response()->json(compact([Auth::id(), 'status']), 200);
             } else {
                 $message = 'user update data failed';
                 return response()->json(compact('status', 'message'), 401);
@@ -86,9 +104,9 @@ class UserController extends Controller
         $status = 'failed';
 
         $user = User::where('id', $request->id)->first();
-            $user->password = Hash::make($request->password);    
-            $user->save();
-         
+        $user->password = Hash::make($request->password);
+        $user->save();
+
 
         if ($user->save()) {
             $status = 'success';
@@ -97,13 +115,11 @@ class UserController extends Controller
             $token = auth()->attempt($credentials);
             auth()->login($user);
 
-            return response()->json(compact([Auth::id(), 'token', 'status']),200);
+            return response()->json(compact([Auth::id(), 'token', 'status']), 200);
         } else {
             $message = 'user update password failed';
             return response()->json(compact('status', 'message'), 401);
         }
-
-       
     }
 
     public function changeRole(Request $request)
@@ -116,8 +132,8 @@ class UserController extends Controller
 
         if ($user->save()) {
             $status = 'success';
-    
-            return response()->json(compact([Auth::id(), 'status']),200);
+
+            return response()->json(compact([Auth::id(), 'status']), 200);
         } else {
             $message = 'user update role failed';
             return response()->json(compact('status', 'message'), 401);
@@ -129,20 +145,19 @@ class UserController extends Controller
         $status = 'update user status failed';
 
         $user = User::where('id', $request->id)->first();
-        if($request->status == false){
+        if ($request->status == false) {
             $user->status = true;
-        }elseif($request->status == true){
+        } elseif ($request->status == true) {
             $user->status = false;
-        }       
+        }
         $user->save();
 
         if ($user->save()) {
-            $status = 'success';    
-            return response()->json(compact(['user', 'status']),200);
+            $status = 'success';
+            return response()->json(compact(['user', 'status']), 200);
         } else {
             $message = 'user update role failed';
             return response()->json(compact('status', 'message'), 401);
         }
     }
-
 }

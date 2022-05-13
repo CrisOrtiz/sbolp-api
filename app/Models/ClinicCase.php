@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Comment;
+use App\Models\User;
 
 class ClinicCase extends Model
 {
@@ -17,11 +19,11 @@ class ClinicCase extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,  'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    /*public function odontogram()
+    public function comments()
     {
-        return $this->hasMany(Odontogram::class, 'patient_id', 'id');
-    }*/
+        return $this->hasMany(Comment::class, 'clinic_case_id', 'id');
+    }
 }

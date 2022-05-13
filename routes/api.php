@@ -45,6 +45,16 @@ $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Control
         $api->delete('{id}', ['as' => 'api.case.delete', 'uses' => 'ClinicCaseController@destroy']);
     });
 
+    $api->group(['prefix' => 'comment'], function ($api) {      
+        $api->get('all', ['as' => 'api.comment.index', 'uses' => 'CommentController@index']);
+        $api->get('userall', ['as' => 'api.comment-index.user', 'uses' => 'CommentController@indexUserComments']);
+        $api->get('show/{id}', ['as' => 'api.comment.show', 'uses' => 'CommentController@show']);     
+        $api->post('update', ['as' => 'api.comment.update', 'uses' => 'CommentController@update']);   
+        $api->post('create', ['as' => 'api.comment.create', 'uses' => 'CommentController@store']);               
+        $api->delete('{id}', ['as' => 'api.comment.delete', 'uses' => 'CommentController@destroy']);
+        $api->post('status', ['as' => 'api.comment.status', 'uses' => 'CommentController@changeStatus']);
+    });
+
     $api->group(['prefix' => 'clients'], function ($api) {      
         $api->get('', ['as' => 'api.clients', 'uses' => 'ClientController@index']);
         $api->get('show/{id}', ['as' => 'api.clients.show', 'uses' => 'ClientController@show']);
@@ -71,6 +81,7 @@ $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Control
         $api->post('changerole', ['as' => 'api.user.changerole', 'uses' =>'UserController@changeRole']);     
         $api->post('status', ['as' => 'api.user.status', 'uses' => 'UserController@changeStatus']);
         $api->post('delete', ['as' => 'api.user.delete', 'uses' => 'UserController@deleteUser']);
+        $api->get('show/{id}', ['as' => 'api.user.show', 'uses' => 'UserController@show']);
     });
     
     
