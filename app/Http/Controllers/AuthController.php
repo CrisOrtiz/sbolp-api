@@ -73,7 +73,7 @@ class AuthController extends Controller
                 $token = auth()->attempt($credentials);
                 auth()->login($user);
 
-                return response()->json(compact([Auth::id(),'token', 'status']));
+                return response()->json(compact(['token', 'status']));
             } else {
                 $message = 'register error';
                 return response()->json(compact('status', 'message'), 401);

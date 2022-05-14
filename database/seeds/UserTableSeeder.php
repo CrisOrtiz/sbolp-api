@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\ClinicCase;
 use App\Models\Image;
+use App\Models\Comment;
 
 class UserTableSeeder extends Seeder
 {
@@ -20,6 +21,8 @@ class UserTableSeeder extends Seeder
             $user->lastname = 'AdminLastname';
             $user->email = 'admin'  . $j . '@admin.com';
             $user->password = Hash::make('password');
+            $user->gender = 'Hombre';
+            $user->isDoctor = false;
             $user->role = 'ROLE_ADMIN';
             $user->status = true;
             $user->image_name = 'img-profile-1.jpg';
@@ -45,6 +48,22 @@ class UserTableSeeder extends Seeder
             $clinicCase1->advices = 'Advices';
             $clinicCase1->status = true;
             $clinicCase1->save();
+
+            $comment = new Comment();
+            $comment->user_id = $user->id;
+            $comment->clinic_case_id = $clinicCase1->id;
+            $comment->content = 'Que buen aporte, me gustaria saber si este proceso es recomendable con dientes de leche.';
+            $comment->owner = 'Dr. Admin0 AdminLastname';
+            $comment->isRead = false;
+            $comment->save();
+
+            $comment = new Comment();
+            $comment->user_id = $user->id;
+            $comment->clinic_case_id = $clinicCase1->id;
+            $comment->content = 'Se me presento un caso similar, aplicaré este procedimiento, gracias!';
+            $comment->owner = 'Dr. Admin1 AdminLastname';
+            $comment->isRead = true;
+            $comment->save();
 
             $clinicCase2 = new ClinicCase();
             $clinicCase2->user_id = $user->id;
@@ -113,6 +132,7 @@ class UserTableSeeder extends Seeder
             $user->lastname = 'UserLastname';
             $user->email = 'user' . $i . '@user.com';
             $user->password = Hash::make('password');
+            $user->gender = 'Mujer';
             $user->role = 'ROLE_USER';
             $user->status = false;
             $user->image_name = 'default-user.jpg';

@@ -10,7 +10,6 @@ use App\Models\Item;
 use Artisan;
 
 
-
 class ClinicCaseController extends Controller
 {
     /**
@@ -92,7 +91,7 @@ class ClinicCaseController extends Controller
         $clinic_case->status = $request->status;
         $clinic_case->save();
 
-        return $this->item($clinic_case, new ClinicCaseTransformer);
+        return response()->json(compact(['clinic_case']), 200);
     }
 
 

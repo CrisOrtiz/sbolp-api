@@ -66,12 +66,14 @@ class UserController extends Controller
                 $user->name = $request->name;
                 $user->lastname = $request->lastname;
                 $user->email = $request->email;
+                $user->gender = $request->gender;
+                $user->isDoctor = $request->isDoctor;
                 $user->status = $request->status;
                 $user->save();
 
                 if ($user->save()) {
                     $status = 'success';
-                    return response()->json(compact([Auth::id(), 'status']), 200);
+                    return response()->json(compact(['status']), 200);
                 } else {
                     $message = 'user update data failed';
                     return response()->json(compact('status', 'message'), 401);
@@ -80,6 +82,8 @@ class UserController extends Controller
         } else {
             $user->name = $request->name;
             $user->lastname = $request->lastname;
+            $user->gender = $request->gender;
+            $user->isDoctor = $request->isDoctor;
             $user->status = $request->status;
             $user->save();
 
@@ -90,7 +94,7 @@ class UserController extends Controller
                 $token = auth()->attempt($credentials);
                 auth()->login($user);
 
-                return response()->json(compact([Auth::id(), 'status']), 200);
+                return response()->json(compact(['status']), 200);
             } else {
                 $message = 'user update data failed';
                 return response()->json(compact('status', 'message'), 401);
