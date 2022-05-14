@@ -23,7 +23,7 @@ class CommentController extends Controller
     {
         $comments = Comment::where('content','LIKE','%'.$request->search.'%')
         ->where('clinic_case_id', $request->clinic_case_id)
-        ->orderBy('isRead')            
+        ->orderBy('created_at','asc')            
         ->paginate((int)$request->pageSize);
 
         return response()->json(compact(['comments']),200);
@@ -38,7 +38,7 @@ class CommentController extends Controller
     {
         $comments = Comment::where('content','LIKE','%'.$request->search.'%')
         ->where('user_id', $request->user_id)
-        ->orderBy('isRead')
+        ->orderBy('created_at','asc')   
         ->paginate((int)$request->pageSize);
 
         return $this->collection($comments, new CommentTransformer);
@@ -76,7 +76,6 @@ class CommentController extends Controller
         $comment->clinic_case_id = $request->clinic_case_id;
         $comment->content = $request->content;
         $comment->owner = "Dr. ".$user->name." ".$user->lastname;
-        $comment->isRead = $request->isRead;
         $comment->save();
 
         return $this->item($comment, new CommentTransformer);
@@ -96,7 +95,6 @@ class CommentController extends Controller
         $comment->user_id = $request->user_id;
         $comment->clinic_case_id = $request->clinic_case_id;
         $comment->content = $request->content;
-        $comment->isRead = $request->isRead;
         $comment->save();
 
         return $this->item($comment, new CommentTransformer);
@@ -117,7 +115,7 @@ class CommentController extends Controller
         return response()->json(compact('text'), 200);
     }
 
-    public function changeStatus(Request $request)
+    /*public function changeStatus(Request $request)
     {
         $status = 'Mark as read failed';
 
@@ -136,5 +134,5 @@ class CommentController extends Controller
             $message = 'Comment mark as read failed';
             return response()->json(compact('status', 'message'), 401);
         }
-    }
+    }*/
 }

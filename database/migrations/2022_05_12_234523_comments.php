@@ -18,7 +18,6 @@ class Comments extends Migration
             $table->uuid('user_id');
             $table->uuid('clinic_case_id');
             $table->string('content');
-            $table->boolean('isRead')->default(false);
             $table->string('owner')->nullable();
             $table->timestamps();
 

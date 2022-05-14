@@ -52,7 +52,6 @@ $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Control
         $api->post('update', ['as' => 'api.comment.update', 'uses' => 'CommentController@update']);   
         $api->post('create', ['as' => 'api.comment.create', 'uses' => 'CommentController@store']);               
         $api->delete('{id}', ['as' => 'api.comment.delete', 'uses' => 'CommentController@destroy']);
-        $api->post('status', ['as' => 'api.comment.status', 'uses' => 'CommentController@changeStatus']);
     });
 
     $api->group(['prefix' => 'clients'], function ($api) {      
