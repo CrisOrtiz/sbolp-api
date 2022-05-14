@@ -11,7 +11,7 @@ class ClinicCaseTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {        
+    {   
         $clinicCase = new ClinicCase();
         $clinicCase->user_id = '1';
         $clinicCase->title = 'Mordida cruzada anterior Brackets';

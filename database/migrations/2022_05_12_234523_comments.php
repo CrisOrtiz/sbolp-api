@@ -14,13 +14,16 @@ class Comments extends Migration
     public function up()
     {
         Schema::connection('mysql')->create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->string('user_id');
-            $table->string('clinic_case_id');
+            $table->uuid('id')->primary();
+            $table->uuid('user_id');
+            $table->uuid('clinic_case_id');
             $table->string('content');
             $table->boolean('isRead')->default(false);
             $table->string('owner')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id') ->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('clinic_case_id') ->references('id')->on('clinicCases')->onDelete('cascade');
         });
     }
 

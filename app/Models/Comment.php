@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ClinicCase;
 use App\Models\User;
+use App\Traits\UUID;
 
 class Comment extends Model
 {
+    use UUID;
+    
     protected $connection = 'mysql';
     
     /**

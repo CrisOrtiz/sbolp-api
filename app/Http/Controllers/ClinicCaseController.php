@@ -20,31 +20,36 @@ class ClinicCaseController extends Controller
      */
     public function index(Request $request)
     {
-        $clinic_cases = ClinicCase::where('title','LIKE','%'.$request->search.'%')
-        ->where('description','LIKE','%'.$request->search.'%')
-        ->where('status', true)
-        ->with('user')
-        ->with('comments')
-        ->orderBy($request->orderBy, $request->direction)            
-        ->paginate((int)$request->pageSize);
+        $clinic_cases = ClinicCase::where('status', true)
+            ->where(function ($query) use ($request) {
+                $query->where('title', 'LIKE', "%{$request->search}%")
+                    ->orWhere('description', 'LIKE', "%{$request->search}%");
+            })
+            ->with('user')
+            ->with('comments')
+            ->orderBy($request->orderBy, $request->direction)
+            ->paginate((int)$request->pageSize);
 
-        return response()->json(compact(['clinic_cases']),200);
+        return response()->json(compact(['clinic_cases']), 200);
     }
 
-     /**
-     * Display a listing of the resource acording id.
+    /**
+     * Display a listing of the resource according id.
      *
      * @return \Illuminate\Http\Response
      */
     public function indexUserCases(Request $request)
     {
-        $clinic_cases = ClinicCase::where('title','LIKE','%'.$request->search.'%')
-        ->where('description','LIKE','%'.$request->search.'%')
-        ->where('user_id', $request->user_id)
-        ->orderBy($request->orderBy, $request->direction)            
-        ->paginate((int)$request->pageSize);
+        $clinic_cases = ClinicCase::where('user_id', $request->user_id)
+            ->where(function ($query) use ($request) {
+                $query->where('title', 'LIKE', "%{$request->search}%")
+                    ->orWhere('description', 'LIKE', "%{$request->search}%");
+            })
+            ->with('user')
+            ->orderBy($request->orderBy, $request->direction)
+            ->paginate((int)$request->pageSize);
 
-        return $this->collection($clinic_cases, new ClinicCaseTransformer);
+        return response()->json(compact(['clinic_cases']), 200);
     }
 
     /**
@@ -135,15 +140,15 @@ class ClinicCaseController extends Controller
         $status = 'update clinic case status failed';
 
         $clinic_case = ClinicCase::where('id', $request->id)->first();
-        if($request->status == false){
+        if ($request->status == false) {
             $clinic_case->status = true;
-        }elseif($request->status == true){
+        } elseif ($request->status == true) {
             $clinic_case->status = false;
-        }       
+        }
         $clinic_case->save();
 
         if ($clinic_case->save()) {
-            $status = 'Success';    
+            $status = 'Success';
             return response()->json(compact(['clinic_case', 'status']), 200);
         } else {
             $message = 'Clinic case update status failed';

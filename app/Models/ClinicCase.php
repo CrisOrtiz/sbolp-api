@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Comment;
 use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\UUID;
 
 class ClinicCase extends Model
 {
+    use SoftDeletes, UUID;
     protected $connection = 'mysql';
     
     /**

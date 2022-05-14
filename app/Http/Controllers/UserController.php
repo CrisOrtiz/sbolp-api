@@ -24,7 +24,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-
         $users = User::where('name', 'LIKE', '%' . $request->search . '%')
             ->orWhere('lastname', 'LIKE', '%' . $request->search . '%')
             ->orWhere('email', 'LIKE', '%' . $request->search . '%')

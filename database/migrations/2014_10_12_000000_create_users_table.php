@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('lastname');
             $table->string('email')->unique();
@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->boolean('status');            
             $table->string('image_name', 255)->default('default-user.jpg');
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
