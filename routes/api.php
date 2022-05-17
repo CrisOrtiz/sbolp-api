@@ -37,12 +37,12 @@ $api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' =
     });
 });
 
-$api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Controllers'], function ($api) {
+$api->version('v1',['middleware' => 'auth:api', 'namespace' => 'App\Http\Controllers'], function ($api) {
 
     $api->group(['prefix' => 'case'], function ($api) {      
         $api->get('all', ['as' => 'api.case.index', 'uses' => 'ClinicCaseController@index']);
-        $api->get('userall', ['as' => 'api.case-index.user', 'uses' => 'ClinicCaseController@indexUserCases']);
-        $api->get('caseuser', ['as' => 'api.case.user', 'uses' => 'ClinicCaseController@getCaseUser']);
+        $api->get('user-cases', ['as' => 'api.case-index.user', 'uses' => 'ClinicCaseController@indexUserCases']);
+        $api->get('user-case', ['as' => 'api.case.user', 'uses' => 'ClinicCaseController@getCaseUser']);
         $api->get('show/{id}', ['as' => 'api.case.show', 'uses' => 'ClinicCaseController@show']);     
         $api->post('update', ['as' => 'api.case.update', 'uses' => 'ClinicCaseController@update']);   
         $api->post('create', ['as' => 'api.case.create', 'uses' => 'ClinicCaseController@store']);               
@@ -51,7 +51,7 @@ $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Control
 
     $api->group(['prefix' => 'comment'], function ($api) {      
         $api->get('all', ['as' => 'api.comment.index', 'uses' => 'CommentController@index']);
-        $api->get('userall', ['as' => 'api.comment-index.user', 'uses' => 'CommentController@indexUserComments']);
+        $api->get('user-comments', ['as' => 'api.comment-index.user', 'uses' => 'CommentController@indexUserComments']);
         $api->get('show/{id}', ['as' => 'api.comment.show', 'uses' => 'CommentController@show']);     
         $api->post('update', ['as' => 'api.comment.update', 'uses' => 'CommentController@update']);   
         $api->post('create', ['as' => 'api.comment.create', 'uses' => 'CommentController@store']);               

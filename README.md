@@ -17,6 +17,19 @@ php artisan migrate --seed
 
 php artisan serve
 
+## composer at ionos ssh
+# install composer through php-cli
+$ curl -sS https://getcomposer.org/installer | /usr/bin/php7.3-cli
+
+# run composer and test if it's working
+$ /usr/bin/php7.3-cli composer.phar
+
+# update composer to latest version
+$ /usr/bin/php7.3-cli composer.phar selfupdate
+
+# install project dependencies
+$ /usr/bin/php7.3-cli composer.phar install
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

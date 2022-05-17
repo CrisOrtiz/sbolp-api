@@ -8,8 +8,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5",
-        "dingo/api": "^3.0.0",
+        "php": "^7.4",
+        "api-ecosystem-for-laravel/dingo-api": "^3.1",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
