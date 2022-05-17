@@ -22,7 +22,12 @@ $api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' =
     $api->group(['namespace' => 'App\Http\Controllers',], function ($api) {
         $api->post('login', 'AuthController@login');
         $api->post('register', 'AuthController@register');   
-         
+    });
+
+    $api->group(['prefix' => 'reset-password', 'namespace' => 'App\Http\Controllers'], function ($api) {
+        $api->post('', 'UpdatePasswordController@resetPassword');         
+        $api->post('/request', 'ResetPasswordRequestController@requestForgotPassword');   
+        $api->post('/token', 'UpdatePasswordController@isValidToken');   
     });
 
     $api->group(['prefix' => 'images', 'namespace' => 'App\Http\Controllers'], function ($api) {      
@@ -30,7 +35,6 @@ $api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' =
         $api->post('{fileName}', ['as' => 'api.images.delete', 'uses' => 'ImageController@delete']);
         $api->get('{fileName}', ['as' => 'api.images', 'uses' => 'ImageController@getImageUrl']);
     });
-
 });
 
 $api->version('v1',['middleware' => 'api.auth', 'namespace' => 'App\Http\Controllers'], function ($api) {

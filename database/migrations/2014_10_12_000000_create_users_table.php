@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('lastname');
             $table->string('email')->unique();
-            $table->string('gender');
+            $table->string('gender')->nullable();
             $table->boolean('isDoctor')->default(true);
             $table->string('role')->default('ROLE_USER');
             $table->timestamp('email_verified_at')->nullable();

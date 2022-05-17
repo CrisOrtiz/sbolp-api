@@ -118,7 +118,7 @@ class UserController extends Controller
             $token = auth()->attempt($credentials);
             auth()->login($user);
 
-            return response()->json(compact([Auth::id(), 'token', 'status']), 200);
+            return response()->json(compact(['token', 'status']), 200);
         } else {
             $message = 'user update password failed';
             return response()->json(compact('status', 'message'), 401);
