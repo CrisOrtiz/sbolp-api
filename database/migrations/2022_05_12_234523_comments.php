@@ -22,7 +22,7 @@ class Comments extends Migration
             $table->timestamps();
 
             $table->foreign('user_id') ->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('clinic_case_id') ->references('id')->on('clinicCases')->onDelete('cascade');
+            $table->foreign('clinic_case_id') ->references('id')->on('clinic_cases')->onDelete('cascade');
         });
     }
 

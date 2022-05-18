@@ -47,6 +47,12 @@ class AuthController extends Controller
         return response()->json(compact(['token', 'status']),200);
     }
 
+    public function test()
+    {
+        $status = 'success';
+        return response()->json(compact(['status']),200);
+    }
+
     public function register(Request $request)
     {
         $status = 'error';
