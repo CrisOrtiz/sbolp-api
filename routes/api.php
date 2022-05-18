@@ -39,7 +39,7 @@ Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'case', 'middleware' => 'throttle:100,1'], function () {
         Route::get('/all', 'ClinicCaseController@index');
-        Route::post('/user-cases', 'ClinicCaseController@indexUserCases');
+        Route::get('/user-cases', 'ClinicCaseController@indexUserCases');
         Route::get('/user-case', 'ClinicCaseController@getCaseUser');
         Route::get('/show/{id}', 'ClinicCaseController@show');
         Route::post('/update', 'ClinicCaseController@update');
@@ -49,7 +49,7 @@ Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'comment', 'middleware' => 'throttle:100,1'], function () {
         Route::get('/all', 'ClinicCaseController@index');
-        Route::post('/user-comments', 'CommentController@indexUserComments');
+        Route::get('/user-comments', 'CommentController@indexUserComments');
         Route::get('/show/{id}', 'CommentController@show');
         Route::post('/update', 'CommentController@update');
         Route::post('/create', 'CommentController@store');
