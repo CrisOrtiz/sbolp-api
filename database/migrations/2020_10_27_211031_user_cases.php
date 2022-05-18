@@ -13,7 +13,7 @@ class UserCases extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('user_cases', function (Blueprint $table) {
+        Schema::create('user_cases', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
             $table->string('case_id');

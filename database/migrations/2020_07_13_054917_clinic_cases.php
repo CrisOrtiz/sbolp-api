@@ -13,7 +13,7 @@ class ClinicCases extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('clinic_cases', function (Blueprint $table) {
+        Schema::create('clinic_cases', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->string('title');
