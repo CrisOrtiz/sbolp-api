@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Dingo\Api\Routing\Router;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('test', 'AuthController@test');
+
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', function ($api) {
-
-    $api->get('test', 'AuthController@test');  
-
+$api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5],function ($api) {
     $api->group(['namespace' => 'App\Http\Controllers',], function ($api) {
         $api->post('login', 'AuthController@login');
         $api->post('register', 'AuthController@register');   
