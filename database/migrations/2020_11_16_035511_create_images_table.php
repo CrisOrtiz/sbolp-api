@@ -13,7 +13,7 @@ class CreateImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::connection('pgsql')->create('images', function (Blueprint $table) {
             $table->id();
             $table->string('rel_type');
             $table->string('rel_id');
