@@ -71,7 +71,10 @@ Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
     
 });
 
-/*$api = app('Dingo\Api\Routing\Router');*/
+$api = app('Dingo\Api\Routing\Router');
+$api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5], function ($api) {
+
+});
 
 /*$api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5], function ($api) {
   $api->group(['namespace' => 'App\Http\Controllers',], function ($api) {
