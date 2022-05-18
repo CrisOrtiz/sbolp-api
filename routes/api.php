@@ -73,7 +73,12 @@ Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5], function ($api) {
-    $api->post('test2', 'AuthController@test');
+    $api->group(['namespace' => 'App\Http\Controllers',], function ($api) {
+        $api->post('login2', 'AuthController@login');
+        $api->post('register2', 'AuthController@register');
+
+        $api->post('test2', 'AuthController@test');
+    });
 });
 
 /*$api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5], function ($api) {
