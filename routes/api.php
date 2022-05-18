@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('test', 'AuthController@test');
 
-Route::group(['prefix' => 'v1/', 'middleware' => 'throttle:100,1'], function () {
+Route::group(['prefix' => '', 'middleware' => 'throttle:100,1'], function () {
     Route::get('test', 'AuthController@test');
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
@@ -35,7 +35,7 @@ Route::group(['prefix' => 'v1/', 'middleware' => 'throttle:100,1'], function () 
 });
 
 
-Route::group(['prefix' => 'v1/', 'middleware' => 'auth:api'], function () {
+Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'case', 'middleware' => 'throttle:100,1'], function () {
         Route::get('/all', 'ClinicCaseController@index');
