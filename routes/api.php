@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('test', 'AuthController@test');
 
 $api = app('Dingo\Api\Routing\Router');
 
@@ -22,8 +23,7 @@ $api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' =
     $api->group(['namespace' => 'App\Http\Controllers',], function ($api) {
         $api->post('login', 'AuthController@login');
         $api->post('register', 'AuthController@register');   
-        
-        $api->get('test', 'AuthController@test');   
+       
     });
 
     $api->group(['prefix' => 'reset-password', 'namespace' => 'App\Http\Controllers'], function ($api) {
