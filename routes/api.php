@@ -16,18 +16,67 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('test', 'AuthController@test');
 
-Route::group(['prefix' => '', 'middleware' => 'throttle:100,1'], function () {
+Route::group(['prefix' => 'v1/', 'middleware' => 'throttle:100,1'], function () {
     Route::get('test', 'AuthController@test');
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
+
+    Route::group(['prefix' => 'reset-password', 'middleware' => 'throttle:100,1'], function () {
+        Route::post('', 'UpdatePasswordController@resetPassword');
+        Route::post('/request', 'ResetPasswordRequestController@requestForgotPassword');
+        Route::post('/token', 'UpdatePasswordController@isValidToken');
+    });
+
+    Route::group(['prefix' => 'images', 'middleware' => 'throttle:100,1'], function () {
+        Route::post('', 'ImageController@store');
+        Route::post('/{fileName}', 'ImageController@delete');
+        Route::get('/{fileName}', 'ImageController@getImageUrl');
+    });
 });
 
-$api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5], function ($api) {
-    $api->group(['namespace' => 'App\Http\Controllers',], function ($api) {
-       // $api->post('login', 'AuthController@login');
-        //$api->post('register', 'AuthController@register');
+Route::group(['prefix' => 'v1/', 'middleware' => 'auth:api'], function () {
+
+    Route::group(['prefix' => 'case', 'middleware' => 'throttle:100,1'], function () {
+        Route::get('/all', 'ClinicCaseController@index');
+        Route::post('/user-cases', 'ClinicCaseController@indexUserCases');
+        Route::get('/user-case', 'ClinicCaseController@getCaseUser');
+        Route::get('/show/{id}', 'ClinicCaseController@show');
+        Route::post('/update', 'ClinicCaseController@update');
+        Route::post('/create', 'ClinicCaseController@store');
+        Route::delete('/{id}', 'ClinicCaseController@destroy');
+    });
+
+    Route::group(['prefix' => 'comment', 'middleware' => 'throttle:100,1'], function () {
+        Route::get('/all', 'ClinicCaseController@index');
+        Route::post('/user-comments', 'CommentController@indexUserComments');
+        Route::get('/show/{id}', 'CommentController@show');
+        Route::post('/update', 'CommentController@update');
+        Route::post('/create', 'CommentController@store');
+        Route::delete('/{id}', 'CommentController@destroy');
+    });
+
+    Route::group(['prefix' => 'user', 'middleware' => 'throttle:100,1'], function () {
+        Route::get('/all', 'UserController@index');
+        Route::get('/me', 'AuthController@getAuthenticatedUser');
+        Route::get('/show/{id}', 'UserController@show');
+        Route::post('/logout', 'AuthController@logout');
+        Route::post('/refreshtoken', 'AuthController@refreshToken');
+        Route::post('/updateuserdata', 'UserController@updateUserData');
+        Route::post('/updatepassword', 'UserController@updateUserPassword');
+        Route::post('/changerole', 'UserController@changeRole');
+        Route::post('/status', 'UserController@changeStatus');
+        Route::delete('/delete', 'UserController@deleteUser');
+    });
+    
+});
+
+/*$api = app('Dingo\Api\Routing\Router');*/
+
+/*$api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5], function ($api) {
+  $api->group(['namespace' => 'App\Http\Controllers',], function ($api) {
+        $api->post('login', 'AuthController@login');
+        $api->post('register', 'AuthController@register');
 
         $api->post('test2', 'AuthController@test');
     });
@@ -38,14 +87,15 @@ $api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' =
         $api->post('/token', 'UpdatePasswordController@isValidToken');
     });
 
-    $api->group(['prefix' => 'images', 'namespace' => 'App\Http\Controllers'], function ($api) {
+   $api->group(['prefix' => 'images', 'namespace' => 'App\Http\Controllers'], function ($api) {
         $api->post('', ['as' => 'api.images.upload', 'uses' => 'ImageController@store']);
         $api->post('{fileName}', ['as' => 'api.images.delete', 'uses' => 'ImageController@delete']);
         $api->get('{fileName}', ['as' => 'api.images', 'uses' => 'ImageController@getImageUrl']);
     });
-});
+});*/
 
-$api->version('v1', ['middleware' => 'auth:api', 'namespace' => 'App\Http\Controllers'], function ($api) {
+
+/*$api->version('v1', ['middleware' => 'auth:api', 'namespace' => 'App\Http\Controllers'], function ($api) {
 
     $api->group(['prefix' => 'case'], function ($api) {
         $api->get('all', ['as' => 'api.case.index', 'uses' => 'ClinicCaseController@index']);
@@ -94,4 +144,4 @@ $api->version('v1', ['middleware' => 'auth:api', 'namespace' => 'App\Http\Contro
         $api->post('delete', ['as' => 'api.user.delete', 'uses' => 'UserController@deleteUser']);
         $api->get('show/{id}', ['as' => 'api.user.show', 'uses' => 'UserController@show']);
     });
-});
+});*/
