@@ -17,7 +17,7 @@ use Dingo\Api\Routing\Router;
 
 $api = app('Dingo\Api\Routing\Router');
 
-$api->post('test', 'AuthController@test');  
+$api->get('test', 'AuthController@test');  
 
 $api->version('v1', ['middleware' => 'api.throttle', 'limit' => 100, 'expires' => 5],function ($api) {
     $api->group(['namespace' => 'App\Http\Controllers',], function ($api) {
