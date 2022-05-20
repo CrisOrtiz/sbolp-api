@@ -13,7 +13,7 @@ class Comments extends Migration
      */
     public function up()
     {
-        Schema::connection('pgsql')->create('comments', function (Blueprint $table) {
+        Schema::connection('mysql')->create('comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->uuid('clinic_case_id');

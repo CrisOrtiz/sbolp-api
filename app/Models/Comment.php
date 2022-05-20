@@ -11,7 +11,7 @@ class Comment extends Model
 {
     use UUID;
     
-    protected $connection = 'pgsql';
+    protected $connection = 'mysql';
     
     /**
      * The table associated with the model.

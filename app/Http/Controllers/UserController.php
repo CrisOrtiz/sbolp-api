@@ -67,7 +67,6 @@ class UserController extends Controller
                 $user->lastname = $request->lastname;
                 $user->email = $request->email;
                 $user->gender = $request->gender;
-                $user->isDoctor = $request->isDoctor;
                 $user->status = $request->status;
                 $user->save();
 
@@ -83,7 +82,6 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->lastname = $request->lastname;
             $user->gender = $request->gender;
-            $user->isDoctor = $request->isDoctor;
             $user->status = $request->status;
             $user->save();
 
