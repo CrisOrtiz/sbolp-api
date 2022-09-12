@@ -66,8 +66,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(ClinicCase::class, 'user_id', 'id');
     }
 
-    public function images()
+    public function image()
     {
-        return $this->hasMany(Image::class, 'rel_id', 'id');
+        return $this->hasOne(Image::class, 'rel_id', 'id');
     }
 }

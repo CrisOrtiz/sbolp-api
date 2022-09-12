@@ -26,6 +26,7 @@ class ClinicCaseController extends Controller
             })
             ->with('user')
             ->with('comments')
+            ->with('images')
             ->orderBy($request->orderBy, $request->direction)
             ->paginate((int)$request->pageSize);
 
@@ -45,6 +46,8 @@ class ClinicCaseController extends Controller
                     ->orWhere('description', 'LIKE', "%{$request->search}%");
             })
             ->with('user')
+            ->with('comments')
+            ->with('images')
             ->orderBy($request->orderBy, $request->direction)
             ->paginate((int)$request->pageSize);
 
@@ -59,7 +62,7 @@ class ClinicCaseController extends Controller
      */
     public function show($id)
     {
-        $clinic_case = ClinicCase::where('id', $id)->with('user')->with('comments')->get();
+        $clinic_case = ClinicCase::where('id', $id)->with('user')->with('comments')->with('images')->get();
 
         if (!$clinic_case) {
             return response()->json(['Caso inexistente'], 400);

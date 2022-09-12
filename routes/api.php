@@ -27,7 +27,7 @@ Route::group(['prefix' => '', 'middleware' => 'throttle:100,1'], function () {
         Route::post('/token', 'UpdatePasswordController@isValidToken');
     });
 
-    Route::group(['prefix' => 'images', 'middleware' => 'throttle:100,1'], function () {
+    Route::group(['prefix' => 'images', 'middleware' => 'throttle:500,1'], function () {
         Route::post('', 'ImageController@store');
         Route::post('/{fileName}', 'ImageController@delete');
         Route::get('/{fileName}', 'ImageController@getImageUrl');
@@ -37,7 +37,7 @@ Route::group(['prefix' => '', 'middleware' => 'throttle:100,1'], function () {
 
 Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
 
-    Route::group(['prefix' => 'case', 'middleware' => 'throttle:100,1'], function () {
+    Route::group(['prefix' => 'case', 'middleware' => 'throttle:500,1'], function () {
         Route::get('/all', 'ClinicCaseController@index');
         Route::get('/user-cases', 'ClinicCaseController@indexUserCases');
         Route::get('/user-case', 'ClinicCaseController@getCaseUser');
@@ -47,7 +47,7 @@ Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
         Route::delete('/{id}', 'ClinicCaseController@destroy');
     });
 
-    Route::group(['prefix' => 'comment', 'middleware' => 'throttle:100,1'], function () {
+    Route::group(['prefix' => 'comment', 'middleware' => 'throttle:500,1'], function () {
         Route::get('/all', 'ClinicCaseController@index');
         Route::get('/user-comments', 'CommentController@indexUserComments');
         Route::get('/show/{id}', 'CommentController@show');
@@ -56,7 +56,7 @@ Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
         Route::delete('/{id}', 'CommentController@destroy');
     });
 
-    Route::group(['prefix' => 'user', 'middleware' => 'throttle:100,1'], function () {
+    Route::group(['prefix' => 'user', 'middleware' => 'throttle:500,1'], function () {
         Route::get('/all', 'UserController@index');
         Route::get('/me', 'AuthController@getAuthenticatedUser');
         Route::get('/show/{id}', 'UserController@show');
