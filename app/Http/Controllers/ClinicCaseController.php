@@ -128,13 +128,13 @@ class ClinicCaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $clinic_case = ClinicCase::findOrFail($id);
         $clinic_case->delete();
-        $text = "caso clinico eliminado";
+        $message = "Caso clinico eliminado";
 
-        return response()->json(compact('text'), 200);
+        return response()->json(compact('message'), 200);
     }
 
     public function changeStatus(Request $request)

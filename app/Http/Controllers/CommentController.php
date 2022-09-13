@@ -23,7 +23,7 @@ class CommentController extends Controller
     {
         $comments = Comment::where('content','LIKE','%'.$request->search.'%')
         ->where('clinic_case_id', $request->clinic_case_id)
-        ->orderBy('created_at','asc')            
+        ->orderBy('created_at','desc')            
         ->paginate((int)$request->pageSize);
 
         return response()->json(compact(['comments']),200);
@@ -38,7 +38,7 @@ class CommentController extends Controller
     {
         $comments = Comment::where('content','LIKE','%'.$request->search.'%')
         ->where('user_id', $request->user_id)
-        ->orderBy('created_at','asc')   
+        ->orderBy('created_at','desc')   
         ->paginate((int)$request->pageSize);
 
         return $this->collection($comments, new CommentTransformer);
@@ -75,7 +75,7 @@ class CommentController extends Controller
         $comment->user_id = $request->user_id;
         $comment->clinic_case_id = $request->clinic_case_id;
         $comment->content = $request->content;
-        $comment->owner = "Dr. ".$user->name." ".$user->lastname;
+        $comment->owner = $user->name." ".$user->lastname;
         $comment->save();
 
         return $this->item($comment, new CommentTransformer);
@@ -92,8 +92,6 @@ class CommentController extends Controller
     public function update(Request $request, $id)
     {
         $comment = Comment::findOrFail($id);
-        $comment->user_id = $request->user_id;
-        $comment->clinic_case_id = $request->clinic_case_id;
         $comment->content = $request->content;
         $comment->save();
 
@@ -106,13 +104,13 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $comment = Comment::findOrFail($id);
         $comment->delete();
-        $text = "Comentario eliminado";
+        $message = "Comentario eliminado";
 
-        return response()->json(compact('text'), 200);
+        return response()->json(compact('message'), 200);
     }
 
     /*public function changeStatus(Request $request)

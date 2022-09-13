@@ -20,6 +20,8 @@ class CreateImagesTable extends Migration
             $table->string('image_url', 255)->default('/img/users/default-user.jpg');
             $table->string('image_name', 255)->default('default-user.jpg');
             $table->timestamps();
+
+            $table->foreign('rel_id')->references('id')->on('users');
         });
     }
 

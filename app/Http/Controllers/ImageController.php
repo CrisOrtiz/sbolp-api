@@ -43,7 +43,7 @@ class ImageController extends Controller
                 $destinationPath = public_path('/img/users/' . $request->id . '/');
                 $name = 'img-' . $request->rel_type . '-' . $request->id . '.jpg';
                 $image_url = 'img/users/' . $request->id . '/' . $name;
-                $item->image_name = $name;
+                $item->image_url = $image_url;
                 $item->save();
             } else {
                 $message = 'Unknown relation type.';
@@ -60,7 +60,7 @@ class ImageController extends Controller
                 $imageRecord->rel_type = $request->rel_type;
                 $imageRecord->rel_id = $request->id;
                 $imageRecord->image_url = $image_url;
-                $imageRecord->image_name = $request->image_name;
+                $imageRecord->image_name = $name;
                 $imageRecord->save();
             } else {
                 $imageRecord = Image::where('image_name', $request->image_name)->first();

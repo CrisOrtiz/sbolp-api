@@ -25,14 +25,7 @@ class UserTableSeeder extends Seeder
             $user->isDoctor = false;
             $user->role = 'ROLE_ADMIN';
             $user->status = true;
-            $user->image_name = 'img-profile-1.jpg';
             $user->save();
-
-            $image = new Image();
-            $image->rel_type = 'profile';
-            $image->rel_id = $user->id;
-            $image->image_url = '/img/users/img-' . $image->rel_type . '-' . $image->rel_id . 'jpg';
-            $image->save();
 
             $clinicCase1 = new ClinicCase();
             $clinicCase1->user_id = $user->id;
@@ -53,14 +46,14 @@ class UserTableSeeder extends Seeder
             $comment->user_id = $user->id;
             $comment->clinic_case_id = $clinicCase1->id;
             $comment->content = 'Que buen aporte, me gustaria saber si este proceso es recomendable con dientes de leche.';
-            $comment->owner = 'Dr. Admin0 AdminLastname';
+            $comment->owner = 'Dr. ' . $user->name . ' ' . $user->lastname;
             $comment->save();
 
             $comment = new Comment();
             $comment->user_id = $user->id;
             $comment->clinic_case_id = $clinicCase1->id;
             $comment->content = 'Se me presento un caso similar, aplicaré este procedimiento, gracias!';
-            $comment->owner = 'Dr. Admin1 AdminLastname';
+            $comment->owner = 'Dr. ' . $user->name . ' ' . $user->lastname;
             $comment->save();
 
             $clinicCase2 = new ClinicCase();
@@ -133,15 +126,7 @@ class UserTableSeeder extends Seeder
             $user->gender = 'Mujer';
             $user->role = 'ROLE_USER';
             $user->status = false;
-            $user->image_name = 'default-user.jpg';
             $user->save();
-
-            $image = new Image();
-            $image->rel_type = 'profile';
-            $image->rel_id = $user->id;
-            $image->image_url = '/img/users/img-' . $image->rel_type . '-' . $image->rel_id . 'jpg';
-            $image->save();
-
 
             $clinicCase1 = new ClinicCase();
             $clinicCase1->user_id = $user->id;

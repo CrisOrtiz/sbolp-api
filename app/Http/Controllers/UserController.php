@@ -28,7 +28,7 @@ class UserController extends Controller
             ->orWhere('lastname', 'LIKE', '%' . $request->search . '%')
             ->orWhere('email', 'LIKE', '%' . $request->search . '%')
             ->orderBy($request->orderBy, $request->direction)
-            ->with('images')
+            ->with('notifications')
             ->paginate((int)$request->pageSize);
 
         return response()->json(compact(['users']), 200);
@@ -42,8 +42,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //añadir aqui with(notifications) cuando sea trabajado
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id)->with('notifications');
 
         if (!$user) {
             return response()->json(['Usuario inexistente'], 400);
@@ -158,6 +157,27 @@ class UserController extends Controller
             return response()->json(compact(['user', 'status']), 200);
         } else {
             $message = 'user update role failed';
+            return response()->json(compact('status', 'message'), 401);
+        }
+    }
+
+    public function changeHasUnreadNotifications(Request $request)
+    {
+        $status = 'Change unread notifications failed';
+
+        $user = User::where('id', $request->id)->first();
+        if ($request->hasUnreadNotifications == false) {
+            $user->hasUnreadNotifications = true;
+        } elseif ($request->hasUnreadNotifications == true) {
+            $user->hasUnreadNotifications = false;
+        }
+        $user->save();
+
+        if ($user->save()) {
+            $status = 'success';
+            return response()->json(compact(['user', 'status']), 200);
+        } else {
+            $message = 'User update role failed';
             return response()->json(compact('status', 'message'), 401);
         }
     }
