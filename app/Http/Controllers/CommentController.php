@@ -76,6 +76,7 @@ class CommentController extends Controller
         $comment->clinic_case_id = $request->clinic_case_id;
         $comment->content = $request->content;
         $comment->owner = $user->name." ".$user->lastname;
+        $comment->thumb_url = $user->image_url;
         $comment->save();
 
         return $this->item($comment, new CommentTransformer);

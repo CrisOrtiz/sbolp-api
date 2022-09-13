@@ -64,7 +64,7 @@ class ClinicCaseController extends Controller
     {
         $clinic_case = ClinicCase::where('id', $id)->with('user')->with('comments')->with('images')->get();
 
-        if (!$clinic_case) {
+        if (count($clinic_case) <= 0) {
             return response()->json(['Caso inexistente'], 400);
         }
 
@@ -105,9 +105,9 @@ class ClinicCaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $clinic_case = ClinicCase::findOrFail($id);
+        $clinic_case = ClinicCase::findOrFail($request->id);
         $clinic_case->title = $request->title;
         $clinic_case->description = $request->description;
         $clinic_case->diagnostic = $request->diagnostic;
@@ -119,7 +119,7 @@ class ClinicCaseController extends Controller
         $clinic_case->advices = $request->advices;
         $clinic_case->save();
 
-        return $this->item($clinic_case, new ClinicCaseTransformer);
+        return response()->json(compact(['clinic_case']), 200);
     }
 
     /**
@@ -132,9 +132,9 @@ class ClinicCaseController extends Controller
     {
         $clinic_case = ClinicCase::findOrFail($id);
         $clinic_case->delete();
-        $message = "Caso clinico eliminado";
+        $text = "Caso clinico eliminado";
 
-        return response()->json(compact('message'), 200);
+        return response()->json(compact('text'), 200);
     }
 
     public function changeStatus(Request $request)

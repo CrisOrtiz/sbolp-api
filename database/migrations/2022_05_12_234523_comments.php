@@ -19,6 +19,7 @@ class Comments extends Migration
             $table->uuid('clinic_case_id');
             $table->string('content');
             $table->string('owner')->nullable();
+            $table->string('thumb_url')->default('img/users/default-user.jpg');
             $table->timestamps();
 
             $table->foreign('user_id') ->references('id')->on('users')->onDelete('cascade');

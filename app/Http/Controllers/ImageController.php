@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use File;
 use App\Models\User;
 use App\Models\ClinicCase;
-use App\Models\Article;
+use App\Models\Comment;
 use App\Models\Image;
 use App\Transformers\ImageTransformer;
 use Illuminate\Http\Request;
@@ -45,6 +45,9 @@ class ImageController extends Controller
                 $image_url = 'img/users/' . $request->id . '/' . $name;
                 $item->image_url = $image_url;
                 $item->save();
+
+                Comment::where('user_id', $request->id)
+                    ->update(['thumb_url' => $image_url]);
             } else {
                 $message = 'Unknown relation type.';
                 return response()->json(compact('message'), 400);
