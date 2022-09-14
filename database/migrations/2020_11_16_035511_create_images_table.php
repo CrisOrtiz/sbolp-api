@@ -13,12 +13,15 @@ class CreateImagesTable extends Migration
      */
     public function up()
     {
-        Schema::connection('pgsql')->create('images', function (Blueprint $table) {
+        Schema::connection('mysql')->create('images', function (Blueprint $table) {
             $table->id();
             $table->string('rel_type');
             $table->string('rel_id');
             $table->string('image_url', 255)->default('/img/users/default-user.jpg');
+            $table->string('image_name', 255)->default('default-user.jpg');
             $table->timestamps();
+
+            $table->foreign('rel_id')->references('id')->on('users');
         });
     }
 

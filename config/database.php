@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-$DATABASE_URL = parse_url('postgres://uualpdkbxrgqkr:016810de55ceffa501ba25c0eef058c76fc891e653d4f99d3756310a76f65d2c@ec2-3-228-235-79.compute-1.amazonaws.com:5432/d3hh3q7c7b5tqe');
+$POSTGRES_DATABASE_URL = parse_url('postgres://uualpdkbxrgqkr:016810de55ceffa501ba25c0eef058c76fc891e653d4f99d3756310a76f65d2c@ec2-3-228-235-79.compute-1.amazonaws.com:5432/d3hh3q7c7b5tqe');
 
 return [
 
@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'pgsql'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -68,11 +68,11 @@ return [
         
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => $DATABASE_URL["host"],
-            'port' => $DATABASE_URL["port"],
-            'database' => ltrim($DATABASE_URL["path"], "/"),
-            'username' => $DATABASE_URL["user"],
-            'password' => $DATABASE_URL["pass"],
+            'host' => $POSTGRES_DATABASE_URL["host"],
+            'port' => $POSTGRES_DATABASE_URL["port"],
+            'database' => ltrim($POSTGRES_DATABASE_URL["path"], "/"),
+            'username' => $POSTGRES_DATABASE_URL["user"],
+            'password' => $POSTGRES_DATABASE_URL["pass"],
             'charset' => 'utf8',
             'collation' => 'utf8_general_ci',
             'prefix' => '',

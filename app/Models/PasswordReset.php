@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PasswordReset extends Model
 {
-    protected $connection = 'pgsql';
+    protected $connection = 'mysql';
     
     /**
      * The table associated with the model.

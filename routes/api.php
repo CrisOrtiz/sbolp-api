@@ -27,7 +27,7 @@ Route::group(['prefix' => '', 'middleware' => 'throttle:100,1'], function () {
         Route::post('/token', 'UpdatePasswordController@isValidToken');
     });
 
-    Route::group(['prefix' => 'images', 'middleware' => 'throttle:100,1'], function () {
+    Route::group(['prefix' => 'images', 'middleware' => 'throttle:500,1'], function () {
         Route::post('', 'ImageController@store');
         Route::post('/{fileName}', 'ImageController@delete');
         Route::get('/{fileName}', 'ImageController@getImageUrl');
@@ -37,26 +37,32 @@ Route::group(['prefix' => '', 'middleware' => 'throttle:100,1'], function () {
 
 Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
 
-    Route::group(['prefix' => 'case', 'middleware' => 'throttle:100,1'], function () {
+    Route::group(['prefix' => 'case', 'middleware' => 'throttle:500,1'], function () {
         Route::get('/all', 'ClinicCaseController@index');
         Route::get('/user-cases', 'ClinicCaseController@indexUserCases');
         Route::get('/user-case', 'ClinicCaseController@getCaseUser');
         Route::get('/show/{id}', 'ClinicCaseController@show');
         Route::post('/update', 'ClinicCaseController@update');
         Route::post('/create', 'ClinicCaseController@store');
-        Route::delete('/{id}', 'ClinicCaseController@destroy');
+        Route::delete('/{id}', 'ClinicCaseController@delete');
     });
 
-    Route::group(['prefix' => 'comment', 'middleware' => 'throttle:100,1'], function () {
+    Route::group(['prefix' => 'comment', 'middleware' => 'throttle:500,1'], function () {
         Route::get('/all', 'ClinicCaseController@index');
         Route::get('/user-comments', 'CommentController@indexUserComments');
         Route::get('/show/{id}', 'CommentController@show');
         Route::post('/update', 'CommentController@update');
         Route::post('/create', 'CommentController@store');
-        Route::delete('/{id}', 'CommentController@destroy');
+        Route::delete('/{id}', 'CommentController@delete');
     });
 
-    Route::group(['prefix' => 'user', 'middleware' => 'throttle:100,1'], function () {
+    Route::group(['prefix' => 'notification', 'middleware' => 'throttle:500,1'], function () {
+        Route::get('/user-notification', 'NotificationController@indexUserNotifications');
+        Route::post('/create', 'NotificationController@store');
+        Route::delete('/{id}', 'NotificationController@delete');
+    });
+
+    Route::group(['prefix' => 'user', 'middleware' => 'throttle:500,1'], function () {
         Route::get('/all', 'UserController@index');
         Route::get('/me', 'AuthController@getAuthenticatedUser');
         Route::get('/show/{id}', 'UserController@show');
@@ -66,6 +72,7 @@ Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
         Route::post('/updatepassword', 'UserController@updateUserPassword');
         Route::post('/changerole', 'UserController@changeRole');
         Route::post('/status', 'UserController@changeStatus');
+        Route::post('/has-notifications', 'UserController@changeHasUnreadNotifications');
         Route::delete('/delete', 'UserController@deleteUser');
     });
     

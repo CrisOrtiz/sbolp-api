@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Comment;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\UUID;
@@ -11,7 +12,7 @@ use App\Traits\UUID;
 class ClinicCase extends Model
 {
     use SoftDeletes, UUID;
-    protected $connection = 'pgsql';
+    protected $connection = 'mysql';
     
     /**
      * The table associated with the model.
@@ -28,5 +29,10 @@ class ClinicCase extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, 'clinic_case_id', 'id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'rel_id', 'id');
     }
 }

@@ -15,7 +15,8 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('login');
+            $message = "Invalid token";
+            return response()->json(compact(['message']), 400);
         }
     }
 }

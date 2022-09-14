@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Comments extends Migration
+class CreateNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class Comments extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('comments', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->uuid('clinic_case_id');
             $table->string('content');
-            $table->string('owner')->nullable();
-            $table->string('thumb_url')->default('img/users/default-user.jpg');
             $table->timestamps();
 
-            $table->foreign('user_id') ->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('clinic_case_id') ->references('id')->on('clinic_cases')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('clinic_case_id')->references('id')->on('clinic_cases');
         });
     }
 
@@ -34,6 +32,6 @@ class Comments extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql')->dropIfExists('comments');
+        Schema::dropIfExists('notifications');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UserCases extends Migration
+class CreateHistoryLogTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class UserCases extends Migration
      */
     public function up()
     {
-        Schema::connection('pgsql')->create('user_cases', function (Blueprint $table) {
-            $table->id();
-            $table->string('user_id');
-            $table->string('case_id');
-            $table->string('status');
+        Schema::create('history_log', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('user_id');
+            $table->string('activity');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -29,6 +30,6 @@ class UserCases extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql')->dropIfExists('user_cases');
+        Schema::dropIfExists('history_log');
     }
 }

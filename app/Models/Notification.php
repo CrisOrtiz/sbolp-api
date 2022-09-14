@@ -3,25 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ClinicCase;
-use App\Models\User;
 use App\Traits\UUID;
+use App\Models\User;
 
-class Comment extends Model
+class Notification extends Model
 {
     use UUID;
-    
     protected $connection = 'mysql';
-    
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'comments';
+    protected $table = 'notifications';
 
-    public function clinicCase()
+    public function user()
     {
-        return $this->belongsTo(ClinicCase::class, 'clinic_case_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    protected $connection = 'pgsql';
+    protected $connection = 'mysql';
 
     /**
      * The table associated with the model.
@@ -15,8 +15,8 @@ class Image extends Model
      */
     protected $table = 'images';
 
-    public function user()
+    public function clinicCase()
     {
-        return $this->belongsTo(User::class,  'rel_id', 'id');
+        return $this->belongsTo(ClinicCase::class, 'rel_id', 'id');
     }
 }
