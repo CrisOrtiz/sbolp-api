@@ -15,8 +15,8 @@ class Image extends Model
      */
     protected $table = 'images';
 
-    public function user()
+    public function clinicCase()
     {
-        return $this->belongsTo(User::class,  'rel_id', 'id');
+        return $this->belongsTo(ClinicCase::class, 'rel_id', 'id');
     }
 }

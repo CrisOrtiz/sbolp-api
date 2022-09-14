@@ -19,7 +19,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','image_name','status'
+        'name', 'email', 'password','image_name','status', 'hasUnreadNotifications'
     ];
 
     /**
@@ -66,8 +66,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(ClinicCase::class, 'user_id', 'id');
     }
 
-    public function images()
+    public function notifications()
     {
-        return $this->hasMany(Image::class, 'rel_id', 'id');
+        return $this->hasMany(Notification::class, 'user_id', 'id');
+    }
+
+    public function image()
+    {
+        return $this->hasOne(Image::class, 'rel_id', 'id');
     }
 }

@@ -4,6 +4,7 @@ use App\Models\ClinicCase;
 use League\Fractal\TransformerAbstract;
 use App\Transformers\CommentTransformer;
 use App\Transformers\UserTransformer;
+use App\Transformers\ImageTransformer;
 class ClinicCaseTransformer extends TransformerAbstract
 {
     /**
@@ -12,14 +13,15 @@ class ClinicCaseTransformer extends TransformerAbstract
      * @var array
      */
     protected $defaultIncludes = [
-        'comments'
+        'comments',
+        'images'
     ];
     /**
      * List of resources possible to include
      *
      * @var array
      */
-    protected $availableIncludes = ['comments'];
+    protected $availableIncludes = ['comments', 'images'];
     /**
      * @param ClinicCase $clinicCase
      * @return array
@@ -53,5 +55,11 @@ class ClinicCaseTransformer extends TransformerAbstract
     {
         $comments = $clinicCase->comments()->get();
         return $this->item($comments, new CommentTransformer());
+    }
+
+    public function includeImages(ClinicCase $clinicCase)
+    {
+        $images = $clinicCase->images()->get();
+        return $this->item($images, new ImageTransformer());
     }
 }

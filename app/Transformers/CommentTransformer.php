@@ -34,6 +34,7 @@ class CommentTransformer extends TransformerAbstract
             'clinic_case_id' => $comment->clinic_case_id,
             'content' => $comment->content,
             'owner' => $comment->owner,
+            'thumb_url' => $comment->thumb_url,
             'created_at' => $comment->created_at,
         ];
     }
