@@ -14,7 +14,7 @@ class CreateImagesTable extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->string('rel_type');
             $table->uuid('rel_id');
             $table->string('image_url', 255)->default('/img/users/default-user.jpg');
