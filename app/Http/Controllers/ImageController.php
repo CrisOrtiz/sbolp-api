@@ -17,6 +17,7 @@ class ImageController extends Controller
 
     public function store(Request $request)
     {
+        $clinicCaseId = $request->id;
         if ($request->hasFile('file')) {
             $avoidOverride = true;
             $image = $request->file('file');
@@ -26,27 +27,27 @@ class ImageController extends Controller
             }
 
             if ($request->rel_type == 'case') {
-                $item = ClinicCase::findOrFail($request->id);
-                if (!File::isDirectory(public_path('/img/cases/') . $request->id . '/')) {
-                    File::makeDirectory(public_path('/img/cases/') . $request->id . '/', 0777, true, true);
+                $item = ClinicCase::findOrFail($clinicCaseId);
+                if (!File::isDirectory('img/cases/' . $clinicCaseId . '/')) {
+                    File::makeDirectory('img/cases/' . $clinicCaseId . '/', 0777, true, true);
                 }
-                $destinationPath = public_path('/img/cases/' . $request->id . '/');
-                $name = 'img-' . $request->rel_type . '-' . $request->id . '-' . $request->image_name;
-                $image_url = 'img/cases/' . $request->id . '/' . $name;
+                $destinationPath = 'img/cases/' . $clinicCaseId . '/';
+                $name = 'img-' . $request->rel_type . '-' . $clinicCaseId . '-' . $request->image_name;
+                $image_url = 'img/cases/' . $clinicCaseId . '/' . $name;
             } elseif ($request->rel_type == 'profile') {
-                if (!File::isDirectory(public_path('/img/users/') . $request->id . '/')) {
-                    File::makeDirectory(public_path('/img/users/') . $request->id . '/', 0777, true, true);
+                if (!File::isDirectory('/img/users/' . $clinicCaseId . '/')) {
+                    File::makeDirectory('/img/users/' . $clinicCaseId . '/', 0777, true, true);
                 } else {
                     $avoidOverride = false;
                 }
-                $item = User::findOrFail($request->id);
-                $destinationPath = public_path('/img/users/' . $request->id . '/');
-                $name = 'img-' . $request->rel_type . '-' . $request->id . '.jpg';
-                $image_url = 'img/users/' . $request->id . '/' . $name;
+                $item = User::findOrFail($clinicCaseId);
+                $destinationPath = '/img/users/' . $clinicCaseId . '/';
+                $name = 'img-' . $request->rel_type . '-' . $clinicCaseId. '.jpg';
+                $image_url = 'img/users/' . $clinicCaseId . '/' . $name;
                 $item->image_url = $image_url;
                 $item->save();
 
-                Comment::where('user_id', $request->id)
+                Comment::where('user_id', $clinicCaseId)
                     ->update(['thumb_url' => $image_url]);
             } else {
                 $message = 'Unknown relation type.';
@@ -61,7 +62,7 @@ class ImageController extends Controller
             if ($avoidOverride) {
                 $imageRecord = new Image();
                 $imageRecord->rel_type = $request->rel_type;
-                $imageRecord->rel_id = $request->id;
+                $imageRecord->rel_id = $clinicCaseId;
                 $imageRecord->image_url = $image_url;
                 $imageRecord->image_name = $name;
                 $imageRecord->save();
