@@ -28,15 +28,15 @@ class ImageController extends Controller
 
             if ($request->rel_type == 'case') {
                 $item = ClinicCase::findOrFail($clinicCaseId);
-                if (!File::isDirectory('img/cases/' . $clinicCaseId . '/')) {
-                    File::makeDirectory('img/cases/' . $clinicCaseId . '/', 0777, true, true);
+                if (!File::isDirectory(public_path('/img/cases/') . $clinicCaseId . '/')) {
+                    File::makeDirectory(public_path('/img/cases/') . $clinicCaseId . '/', 0777, true, true);
                 }
                 $destinationPath = 'img/cases/' . $clinicCaseId . '/';
                 $name = 'img-' . $request->rel_type . '-' . $clinicCaseId . '-' . $request->image_name;
                 $image_url = 'img/cases/' . $clinicCaseId . '/' . $name;
             } elseif ($request->rel_type == 'profile') {
-                if (!File::isDirectory('/img/users/' . $clinicCaseId . '/')) {
-                    File::makeDirectory('/img/users/' . $clinicCaseId . '/', 0777, true, true);
+                if (!File::isDirectory(public_path('/img/users/') . $clinicCaseId . '/')) {
+                    File::makeDirectory(public_path('/img/users/') . $clinicCaseId . '/', 0777, true, true);
                 } else {
                     $avoidOverride = false;
                 }
