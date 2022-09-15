@@ -32,6 +32,8 @@ class ImageTransformer extends TransformerAbstract
             'id' => $image->id,
             'rel_type' => $image->rel_type,
             'rel_id' => $image->rel_id,
+            'image_name' => $image->image_name,
+            'section' => $image->section,
             'image_url' => $image->image_url,
             'created_at' => $image->created_at,
         ];

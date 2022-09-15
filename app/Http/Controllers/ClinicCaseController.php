@@ -113,10 +113,12 @@ class ClinicCaseController extends Controller
         $clinic_case->diagnostic = $request->diagnostic;
         $clinic_case->treatment_phase_one = $request->treatment_phase_one;
         $clinic_case->procedure_phase_one = $request->procedure_phase_one;
+        $clinic_case->hasSecondPhase = $request->hasSecondPhase;
         $clinic_case->treatment_phase_two = $request->treatment_phase_two;
         $clinic_case->procedure_phase_two = $request->procedure_phase_two;
         $clinic_case->conclusions = $request->conclusions;
         $clinic_case->advices = $request->advices;
+        $clinic_case->status = $request->status;
         $clinic_case->save();
 
         return response()->json(compact(['clinic_case']), 200);
