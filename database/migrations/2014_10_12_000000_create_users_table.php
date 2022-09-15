@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('password'); 
             $table->boolean('status');      
             $table->boolean('hasUnreadNotifications')->default(false);                  
+            $table->string('phone')->nullable();      
             $table->string('image_url', 255)->default('img/users/default-user.jpg');
             $table->rememberToken();
             $table->softDeletes();

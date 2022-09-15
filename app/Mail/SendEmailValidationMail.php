@@ -7,20 +7,22 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendMail extends Mailable
+class SendEmailValidationMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $token;
+    public $user_id;
+    public $client_url;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($token, $mail)
+    public function __construct($user_id, $mail)
     {
-        $this->token = $token;
         $this->mail = $mail;
+        $this->user_id = $user_id;
+        $this->client_url = env('CLIENT_URL');
     }
 
     /**
@@ -30,11 +32,12 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('Email.forgotPassword')
-        ->subject('Restaurar contraseña')
+        return $this->markdown('Email.emailValidation')
+        ->subject('Verificación de correo.')
         ->with([
-            'token' => $this->token,
-            'mail' => $this->mail
+            'mail' => $this->mail,
+            'id' => $this->user_id,
+            'client_url' => $this->client_url
         ]);
     }
 }
