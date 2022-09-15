@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="https:\\crisortizdev.com" target="_blank">Developer contact</a>
+                    <a href="http:\\crisortizdev.com" target="_blank">Developer contact</a>
                 </div>
             </div>
         </div>
