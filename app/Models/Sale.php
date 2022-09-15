@@ -7,7 +7,7 @@ use App\Models\SaleProduct;
 
 class Sale extends Model
 {
-    protected $connection = 'mysql';
+    protected $connection = 'pgsql';
 
     /**
      * The table associated with the model.

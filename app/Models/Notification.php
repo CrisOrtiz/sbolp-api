@@ -9,7 +9,7 @@ use App\Models\User;
 class Notification extends Model
 {
     use UUID;
-    protected $connection = 'mysql';
+    protected $connection = 'pgsql';
 
     /**
      * The table associated with the model.

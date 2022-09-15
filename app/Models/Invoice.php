@@ -7,7 +7,7 @@ use App\Models\InvoiceArticle;
 
 class Invoice extends Model
 {
-    protected $connection = 'mysql';
+    protected $connection = 'pgsql';
 
     /**
      * The table associated with the model.

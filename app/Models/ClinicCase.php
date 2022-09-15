@@ -12,7 +12,7 @@ use App\Traits\UUID;
 class ClinicCase extends Model
 {
     use SoftDeletes, UUID;
-    protected $connection = 'mysql';
+    protected $connection = 'pgsql';
     
     /**
      * The table associated with the model.
