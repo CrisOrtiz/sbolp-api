@@ -28,7 +28,7 @@ class ClinicCase extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'clinic_case_id', 'id');
+        return $this->hasMany(Comment::class, 'clinic_case_id', 'id')->orderBy('created_at', 'DESC');
     }
 
     public function images()

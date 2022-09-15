@@ -24,10 +24,11 @@ class UserTableSeeder extends Seeder
             $user->isDoctor = false;
             $user->role = 'ROLE_ADMIN';
             $user->status = true;
+            $user->email_verified_at = date("Y-m-d H:i:s");
             $user->save();
 
             $user2 = new User();
-            $user2->name = 'Administrador';
+            $user2->name = 'Administradora';
             $user2->lastname = '0';
             $user2->email = 'admin0@admin.com';
             $user2->password = Hash::make('password');

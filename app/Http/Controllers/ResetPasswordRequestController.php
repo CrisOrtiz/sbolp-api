@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Mail\SendMail;
+use App\Mail\SendResetPasswordMail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -45,7 +45,7 @@ class ResetPasswordRequestController extends Controller
     public function sendEmail($email)
     {
         $token = $this->createToken($email);
-        Mail::to($email)->send(new SendMail($token, $email));
+        Mail::to($email)->send(new SendResetPasswordMail($token, $email));
     }
 
     public function validEmail($email)
