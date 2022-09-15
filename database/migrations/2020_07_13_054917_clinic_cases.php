@@ -41,6 +41,6 @@ class ClinicCases extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql')->dropIfExists('clinic_cases');
+        Schema::dropIfExists('clinic_cases');
     }
 }
