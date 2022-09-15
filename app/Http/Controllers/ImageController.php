@@ -63,6 +63,7 @@ class ImageController extends Controller
                 $imageRecord->rel_type = $request->rel_type;
                 $imageRecord->rel_id = $request->id;
                 $imageRecord->image_url = $image_url;
+                $imageRecord->section = substr($request->image_name, 0, -6);;
                 $imageRecord->image_name = $name;
                 $imageRecord->save();
             } else {
