@@ -34,6 +34,6 @@ class Comments extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql')->dropIfExists('comments');
+        Schema::dropIfExists('comments');
     }
 }
