@@ -66,6 +66,7 @@ class UserController extends Controller
                 $user->lastname = $request->lastname;
                 $user->email = $request->email;
                 $user->gender = $request->gender;
+                $user->phone = $request->phone;
                 $user->status = $request->status;
                 $user->save();
 
@@ -81,6 +82,7 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->lastname = $request->lastname;
             $user->gender = $request->gender;
+            $user->phone = $request->phone;
             $user->status = $request->status;
             $user->save();
 
@@ -156,7 +158,25 @@ class UserController extends Controller
             $status = 'success';
             return response()->json(compact(['user', 'status']), 200);
         } else {
-            $message = 'user update role failed';
+            $message = 'user update status failed';
+            return response()->json(compact('status', 'message'), 401);
+        }
+    }
+
+    public function setEmailVerification(Request $request)
+    {
+        $status = 'Update user email verification';
+
+        $user = User::where('id', $request->id)->first();
+        $user->status = true;
+        $user->email_verified_at = date('Y-m-d g:i:s');
+
+        if ($user->save()) {
+            $status = 'success';
+           
+            return response()->json(compact(['user', 'status']), 200);
+        } else {
+            $message = 'user update email_verified_at failed';
             return response()->json(compact('status', 'message'), 401);
         }
     }

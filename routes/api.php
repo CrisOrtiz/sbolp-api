@@ -16,12 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('test', 'AuthController@test');
 
-Route::group(['prefix' => '', 'middleware' => 'throttle:100,1'], function () {
+Route::group(['prefix' => '', 'middleware' => 'throttle:500,1'], function () {
     Route::get('test', 'AuthController@test');
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
+    Route::post('user/email-verification', 'UserController@setEmailVerification');
 
-    Route::group(['prefix' => 'reset-password', 'middleware' => 'throttle:100,1'], function () {
+    Route::group(['prefix' => 'reset-password', 'middleware' => 'throttle:500,1'], function () {
         Route::post('', 'UpdatePasswordController@resetPassword');
         Route::post('/request', 'ResetPasswordRequestController@requestForgotPassword');
         Route::post('/token', 'UpdatePasswordController@isValidToken');
@@ -37,7 +38,7 @@ Route::group(['prefix' => '', 'middleware' => 'throttle:100,1'], function () {
 
 Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
 
-    Route::group(['prefix' => 'case', 'middleware' => 'throttle:500,1'], function () {
+    Route::group(['prefix' => 'case', 'middleware' => 'throttle:3000,1'], function () {
         Route::get('/all', 'ClinicCaseController@index');
         Route::get('/user-cases', 'ClinicCaseController@indexUserCases');
         Route::get('/user-case', 'ClinicCaseController@getCaseUser');
@@ -47,7 +48,7 @@ Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
         Route::delete('/{id}', 'ClinicCaseController@delete');
     });
 
-    Route::group(['prefix' => 'comment', 'middleware' => 'throttle:500,1'], function () {
+    Route::group(['prefix' => 'comment', 'middleware' => 'throttle:3000,1'], function () {
         Route::get('/all', 'ClinicCaseController@index');
         Route::get('/user-comments', 'CommentController@indexUserComments');
         Route::get('/show/{id}', 'CommentController@show');
@@ -56,13 +57,13 @@ Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
         Route::delete('/{id}', 'CommentController@delete');
     });
 
-    Route::group(['prefix' => 'notification', 'middleware' => 'throttle:500,1'], function () {
+    Route::group(['prefix' => 'notification', 'middleware' => 'throttle:3000,1'], function () {
         Route::get('/user-notification', 'NotificationController@indexUserNotifications');
         Route::post('/create', 'NotificationController@store');
         Route::delete('/{id}', 'NotificationController@delete');
     });
 
-    Route::group(['prefix' => 'user', 'middleware' => 'throttle:500,1'], function () {
+    Route::group(['prefix' => 'user', 'middleware' => 'throttle:3000,1'], function () {
         Route::get('/all', 'UserController@index');
         Route::get('/me', 'AuthController@getAuthenticatedUser');
         Route::get('/show/{id}', 'UserController@show');
