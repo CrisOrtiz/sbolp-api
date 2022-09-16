@@ -54,7 +54,7 @@ Route::group(['prefix' => '', 'middleware' => 'auth:api'], function () {
         Route::get('/show/{id}', 'CommentController@show');
         Route::post('/update', 'CommentController@update');
         Route::post('/create', 'CommentController@store');
-        Route::delete('/{id}', 'CommentController@delete');
+        Route::post('/delete', 'CommentController@delete');
     });
 
     Route::group(['prefix' => 'notification', 'middleware' => 'throttle:3000,1'], function () {
