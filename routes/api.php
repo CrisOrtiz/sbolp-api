@@ -30,7 +30,7 @@ Route::group(['prefix' => '', 'middleware' => 'throttle:500,1'], function () {
 
     Route::group(['prefix' => 'images', 'middleware' => 'throttle:500,1'], function () {
         Route::post('', 'ImageController@store');
-        Route::post('/{fileName}', 'ImageController@delete');
+        Route::post('/delete', 'ImageController@delete');
         Route::get('/{fileName}', 'ImageController@getImageUrl');
     });
 });

@@ -147,12 +147,8 @@ class UserController extends Controller
         $status = 'update user status failed';
 
         $user = User::where('id', $request->id)->first();
-        if ($request->status == false) {
-            $user->status = true;
-        } elseif ($request->status == true) {
-            $user->status = false;
-        }
-        $user->save();
+
+        $user->status = !$user->status;
 
         if ($user->save()) {
             $status = 'success';
