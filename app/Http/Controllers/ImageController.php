@@ -81,7 +81,7 @@ class ImageController extends Controller
     public function delete(Request $request)
     {
         $message = 'invalid rel type';
-        $imageUrl = $request->img_url;
+        $imageUrl = explode('?',$request->img_url)[0];
         if ($request->rel_type == 'case') {
             if (File::exists(public_path($imageUrl))) {
                 if (Image::where('image_url', $imageUrl)->delete()) {
